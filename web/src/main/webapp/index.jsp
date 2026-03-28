@@ -1,42 +1,37 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<% final String c = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Easy 2 Work – On-Demand Home Service</title>
-  <!-- Required for GitHub Pages: all relative URLs resolve from this folder -->
-  <base href="./">
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <base href="<%= c %>/">
+  <link rel="icon" href="<%= c %>/images/logo.png" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" crossorigin="">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="<%= c %>/css/style.css" rel="stylesheet">
 </head>
-<body>
-  <!-- ========== APP BAR (Pronto-style: white pill, green logo centre) ========== -->
-  <nav class="navbar navbar-expand-lg navbar-pronto sticky-top">
-    <div class="navbar-pronto-outer">
-      <a class="navbar-pronto-mobile-brand d-lg-none" href="./">Easy 2 Work</a>
-      <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse navbar-pronto-pill-wrap" id="navMenu">
-        <div class="navbar-pronto-pill">
-          <a class="nav-link" href="#why-us">Why us</a>
-          <a class="nav-link" href="#services">Services</a>
-          <a class="navbar-brand navbar-pronto-brand" href="./">Easy 2 Work</a>
-          <a class="nav-link" href="#how">How it works</a>
-          <a class="nav-link" href="#faqs">FAQs</a>
-        </div>
+<body data-ctx="<%= c %>">
+<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+
+  <c:if test="${param.booked == '1'}">
+    <div class="container pt-3">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Thank you! Your booking request was received.
+        <c:if test="${not empty param.ref}"> Reference #<c:out value="${param.ref}"/>.</c:if>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
-  </nav>
+  </c:if>
 
-  <!-- ========== HERO (Pronto-style: headline + Play Store + mobile screens, logo as bg) ========== -->
-  <section class="hero hero-pronto text-center" style="background-image: url('images/logo.png');">
+  <section class="hero hero-pronto text-center" style="background-image: url('<%= c %>/images/logo.png');">
     <div class="container hero-pronto-inner position-relative">
       <h1 class="hero-headline hero-headline-pronto animate-fade-in-up">India's quick<br>Home Service App</h1>
       <p class="hero-cities hero-cities-pronto animate-fade-in-up animate-delay-1">Now live in Varanasi & expanding to more cities.</p>
-      <div class="hero-play-store animate-fade-in-up animate-delay-2">
+      <div class="hero-play-store animate-fade-in-up animate-delay-2 d-flex flex-wrap justify-content-center gap-3 align-items-center">
+        <a href="<%= c %>/book.jsp" class="book-cta-btn">Book a service</a>
         <a href="#" id="googlePlayBtn" class="play-store-btn" target="_blank" rel="noopener" aria-label="Get it on Google Play">
           <span class="play-store-icon">
             <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
@@ -49,7 +44,6 @@
       </div>
       <p class="hero-subline hero-subline-pronto animate-fade-in-up animate-delay-3">Your home, professionally cleaned — exactly when you need it.</p>
     </div>
-    <!-- Mobile phone mockups – Pronto jaisa app screens -->
     <div class="hero-phones">
       <div class="phone-mockup phone-mockup-left">
         <div class="phone-frame">
@@ -95,7 +89,6 @@
     </div>
   </section>
 
-  <!-- ========== WHY US / STATS (Pronto-style: Background verified, numbers) ========== -->
   <section id="why-us" class="stats-section">
     <div class="container">
       <h2 class="section-title text-center">On-demand professional home service</h2>
@@ -103,19 +96,19 @@
       <div class="row g-4 justify-content-center text-center stats-row">
         <div class="col-6 col-md-4">
           <div class="stat-item animate-fade-in-up animate-delay-1">
-            <span class="stat-number" data-count="1200">0</span><span class="stat-plus">+</span>
+            <span class="stat-number" id="stat-homes" data-count="1200">0</span><span class="stat-plus">+</span>
             <p class="stat-label">Homes serviced</p>
           </div>
         </div>
         <div class="col-6 col-md-4">
           <div class="stat-item animate-fade-in-up animate-delay-2">
-            <span class="stat-number" data-count="850">0</span><span class="stat-plus">+</span>
+            <span class="stat-number" id="stat-hours" data-count="850">0</span><span class="stat-plus">+</span>
             <p class="stat-label">Hours saved</p>
           </div>
         </div>
         <div class="col-6 col-md-4">
           <div class="stat-item animate-fade-in-up animate-delay-3">
-            <span class="stat-number" data-count="50">0</span><span class="stat-plus">+</span>
+            <span class="stat-number" id="stat-pros" data-count="50">0</span><span class="stat-plus">+</span>
             <p class="stat-label">Verified professionals</p>
           </div>
         </div>
@@ -123,7 +116,6 @@
     </div>
   </section>
 
-  <!-- ========== SERVICES (Pronto-style: big image cards, full-width scroll) ========== -->
   <section id="services" class="services-section">
     <div class="container">
       <h2 class="section-title text-center">Book trusted cleaning & repair help</h2>
@@ -132,80 +124,78 @@
     <div class="services-scroll-fullwidth">
       <div class="services-marquee" id="servicesMarquee">
       <div class="services-scroll">
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-1">
+        <a href="<%= c %>/service?id=ELECTRICAL" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-1">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Electrical Repair</h5>
             <p class="text-muted mb-0 small">Wiring, fuse, switch and electrical fault resolution.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-2">
+        </a>
+        <a href="<%= c %>/service?id=AC" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-2">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1631545914464-f152c32b1b2c?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>AC Servicing</h5>
             <p class="text-muted mb-0 small">AC installation, repair and maintenance.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-3">
+        </a>
+        <a href="<%= c %>/service?id=COOLER" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-3">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Cooler Repair</h5>
             <p class="text-muted mb-0 small">Cooler repair and servicing at home.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-4">
+        </a>
+        <a href="<%= c %>/service?id=LAUNDRY" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-4">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Laundry</h5>
             <p class="text-muted mb-0 small">Washing, ironing and laundry help at home.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-5">
+        </a>
+        <a href="<%= c %>/service?id=WINDOW" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-5">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Window cleaning</h5>
             <p class="text-muted mb-0 small">Inside and outside window cleaning.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-6">
+        </a>
+        <a href="<%= c %>/service?id=UTENSILS" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-6">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Utensils</h5>
             <p class="text-muted mb-0 small">Utensil washing and kitchen cleanup.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-7">
+        </a>
+        <a href="<%= c %>/service?id=BALCONY" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-7">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Balcony cleaning</h5>
             <p class="text-muted mb-0 small">Balcony sweep, mop and upkeep.</p>
           </div>
-        </div>
-        <div class="service-card service-card-with-img animate-fade-in-up animate-delay-8">
+        </a>
+        <a href="<%= c %>/service?id=BATHROOM" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-8">
           <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=85')"></div>
           <div class="service-card-body">
             <h5>Bathroom cleaning</h5>
             <p class="text-muted mb-0 small">Bathroom deep clean and sanitisation.</p>
           </div>
-        </div>
+        </a>
       </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== HOW IT WORKS – Aapki di hui image (3 steps + phone screens) ========== -->
   <section id="how" class="steps-section steps-section-pronto steps-section-one-img">
     <div class="container">
       <p class="steps-section-label text-center">How it works</p>
       <h2 class="section-title text-center">Simple steps to a cleaner home</h2>
       <p class="section-subtitle text-center">Follow these simple steps to get lightning-fast household help.</p>
       <div class="steps-section-img-wrap">
-        <img src="images/steps-section.png" alt="How it works – Step 1 Pick services, Step 2 Add to cart, Step 3 Pay and done" class="steps-section-img">
+        <img src="<%= c %>/images/steps-section.png" alt="How it works – Step 1 Pick services, Step 2 Add to cart, Step 3 Pay and done" class="steps-section-img">
       </div>
     </div>
   </section>
 
-  <!-- ========== TESTIMONIALS (Pronto-style: User reviews) ========== -->
   <section class="testimonials-section">
     <div class="container">
       <h2 class="section-title text-center">User reviews and feedback</h2>
@@ -242,7 +232,6 @@
     </div>
   </section>
 
-  <!-- ========== FAQs (Pronto-style: Accordion) ========== -->
   <section id="faqs" class="faq-section">
     <div class="container">
       <h2 class="section-title section-title-faq text-center">FAQ's</h2>
@@ -287,7 +276,6 @@
     </div>
   </section>
 
-  <!-- ========== Varanasi – Easy 2 Work on-demand service (OpenStreetMap) ========== -->
   <section class="varanasi-map-section" id="varanasi">
     <div class="varanasi-map-wrap">
       <p class="varanasi-map-text">Easy 2 Work is providing on-demand home service in Varanasi.</p>
@@ -295,71 +283,12 @@
     </div>
   </section>
 
-  <!-- ========== FOOTER (view-only: no login/register links) ========== -->
-  <footer class="footer-custom">
-    <div class="container">
-      <div class="row g-4 py-4">
-        <div class="col-md-6">
-          <h6 class="footer-heading">ABOUT</h6>
-          <ul class="footer-links">
-            <li><a href="#why-us">Why Us</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#how">How It Works</a></li>
-            <li><a href="#faqs">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <h6 class="footer-heading">LEGAL</h6>
-          <ul class="footer-links">
-            <li><a href="terms.html">Terms &amp; Conditions</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom text-center">
-        <p class="mb-0">Easy 2 Work – On-Demand Home Service &copy; 2025</p>
-      </div>
-    </div>
-  </footer>
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script>
-    // Varanasi map – OpenStreetMap (Leaflet)
-    (function() {
-      var mapEl = document.getElementById('varanasiMap');
-      if (!mapEl) return;
-      var varanasi = [25.3176, 82.9739];
-      var map = L.map('varanasiMap').setView(varanasi, 12);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
-      L.marker(varanasi).addTo(map).bindPopup('<strong>Varanasi</strong><br>Easy 2 Work service area').openPopup();
-    })();
-    // Pronto-style: CSS marquee – duplicate strip for seamless infinite scroll
-    (function() {
-      var marquee = document.getElementById('servicesMarquee');
-      var scrollEl = document.querySelector('.services-scroll');
-      if (!marquee || !scrollEl) return;
-      var clone = scrollEl.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      marquee.appendChild(clone);
-    })();
-    // Optional: simple count-up for stats when in view
-    document.querySelectorAll('.stat-number').forEach(function(el) {
-      var target = parseInt(el.getAttribute('data-count'), 10);
-      var step = Math.max(1, Math.floor(target / 40));
-      var current = 0;
-      function update() {
-        current = Math.min(current + step, target);
-        el.textContent = current;
-        if (current < target) requestAnimationFrame(update);
-      }
-      var observer = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) { update(); observer.disconnect(); }
-      }, { threshold: 0.3 });
-      observer.observe(el);
-    });
-  </script>
+  <script src="<%= c %>/js/easy2work-api.js"></script>
+  <script src="<%= c %>/js/site.js"></script>
 </body>
 </html>

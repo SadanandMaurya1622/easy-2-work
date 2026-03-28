@@ -5,8 +5,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +12,6 @@ import java.util.logging.Logger;
  * Production-style pool: env vars override web.xml context-params.
  * E2W_JDBC_URL, E2W_JDBC_USER, E2W_JDBC_PASSWORD
  */
-@WebListener
 public class DataSourceListener implements ServletContextListener {
 
     public static final String CTX_DATASOURCE = "com.easy2work.DataSource";
@@ -48,7 +45,6 @@ public class DataSourceListener implements ServletContextListener {
         cfg.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         cfg.addDataSourceProperty("useServerPrepStmts", "true");
         cfg.addDataSourceProperty("characterEncoding", "utf8");
-        cfg.addDataSourceProperty("connectionCollation", "utf8mb4_unicode_ci");
 
         try {
             HikariDataSource ds = new HikariDataSource(cfg);

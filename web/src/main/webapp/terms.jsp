@@ -1,13 +1,15 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% final String c = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms &amp; Conditions – Easy 2 Work</title>
-  <base href="./">
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <base href="<%= c %>/">
+  <link rel="icon" href="<%= c %>/images/logo.png" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="<%= c %>/css/style.css" rel="stylesheet">
   <style>
     .legal-page { padding: 5rem 0 4rem; max-width: 800px; margin: 0 auto; }
     .legal-page h1 { font-size: 1.75rem; margin-bottom: 1.5rem; font-weight: 700; }
@@ -18,29 +20,13 @@
     .legal-back:hover { text-decoration: underline; }
   </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-pronto sticky-top">
-    <div class="navbar-pronto-outer">
-      <a class="navbar-pronto-mobile-brand d-lg-none" href="index.html">Easy 2 Work</a>
-      <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse navbar-pronto-pill-wrap" id="navMenu">
-        <div class="navbar-pronto-pill">
-          <a class="nav-link" href="index.html#why-us">Why us</a>
-          <a class="nav-link" href="index.html#services">Services</a>
-          <a class="navbar-brand navbar-pronto-brand" href="index.html">Easy 2 Work</a>
-          <a class="nav-link" href="index.html#how">How it works</a>
-          <a class="nav-link" href="index.html#faqs">FAQs</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+<body data-ctx="<%= c %>">
+<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
 
   <main class="legal-page container">
-    <a href="index.html" class="legal-back">&larr; Back to Home</a>
+    <a href="<%= c %>/" class="legal-back">&larr; Back to Home</a>
     <h1>Terms &amp; Conditions</h1>
-    <p><strong>Last updated:</strong> 2025</p>
+    <p><strong>Last updated:</strong> 2026</p>
     <p>Welcome to Easy 2 Work. By using our platform or booking any home service, you agree to these terms. Please read them carefully.</p>
 
     <h2>Use of the service</h2>
@@ -67,32 +53,9 @@
     <p>For questions about these terms, contact us through the Easy 2 Work app or website.</p>
   </main>
 
-  <footer class="footer-custom">
-    <div class="container">
-      <div class="row g-4 py-4">
-        <div class="col-md-6">
-          <h6 class="footer-heading">ABOUT</h6>
-          <ul class="footer-links">
-            <li><a href="index.html#why-us">Why Us</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#how">How It Works</a></li>
-            <li><a href="index.html#faqs">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <h6 class="footer-heading">LEGAL</h6>
-          <ul class="footer-links">
-            <li><a href="terms.html">Terms &amp; Conditions</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom text-center">
-        <p class="mb-0">Easy 2 Work – On-Demand Home Service &copy; 2025</p>
-      </div>
-    </div>
-  </footer>
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

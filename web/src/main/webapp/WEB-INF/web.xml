@@ -22,9 +22,28 @@
     <listener-class>com.easy2work.config.DataSourceListener</listener-class>
   </listener>
 
+  <!-- JSON / REST-style APIs: com.easy2work.api.* -->
+  <filter>
+    <filter-name>ApiCorsFilter</filter-name>
+    <filter-class>com.easy2work.api.ApiCorsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ApiCorsFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>ApiDiscoveryServlet</servlet-name>
+    <servlet-class>com.easy2work.api.ApiDiscoveryServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApiDiscoveryServlet</servlet-name>
+    <url-pattern>/api/discovery</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>StatsApiServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.StatsApiServlet</servlet-class>
+    <servlet-class>com.easy2work.api.StatsApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StatsApiServlet</servlet-name>
@@ -32,12 +51,75 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>HealthServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.HealthServlet</servlet-class>
+    <servlet-name>HealthApiServlet</servlet-name>
+    <servlet-class>com.easy2work.api.HealthApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HealthServlet</servlet-name>
+    <servlet-name>HealthApiServlet</servlet-name>
     <url-pattern>/api/health</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ServicesApiServlet</servlet-name>
+    <servlet-class>com.easy2work.api.ServicesApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServicesApiServlet</servlet-name>
+    <url-pattern>/api/services</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ServiceDetailApiServlet</servlet-name>
+    <servlet-class>com.easy2work.api.ServiceDetailApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServiceDetailApiServlet</servlet-name>
+    <url-pattern>/api/service-detail</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>BookingsApiServlet</servlet-name>
+    <servlet-class>com.easy2work.api.BookingsApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookingsApiServlet</servlet-name>
+    <url-pattern>/api/bookings</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>BookingApiServlet</servlet-name>
+    <servlet-class>com.easy2work.api.BookingApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookingApiServlet</servlet-name>
+    <url-pattern>/api/booking</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>BookingServlet</servlet-name>
+    <servlet-class>com.easy2work.servlet.BookingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BookingServlet</servlet-name>
+    <url-pattern>/booking</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MyBookingsServlet</servlet-name>
+    <servlet-class>com.easy2work.servlet.MyBookingsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyBookingsServlet</servlet-name>
+    <url-pattern>/my-bookings</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ServiceDetailServlet</servlet-name>
+    <servlet-class>com.easy2work.servlet.ServiceDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServiceDetailServlet</servlet-name>
+    <url-pattern>/service</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
