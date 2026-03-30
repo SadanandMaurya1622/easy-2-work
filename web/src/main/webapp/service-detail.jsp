@@ -49,7 +49,11 @@
 
     <header class="service-detail-header mb-4">
       <h1 class="service-detail-title"><%= h(svc.getTitle()) %></h1>
-      <p class="service-detail-intro lead mb-0"><%= h(svc.getSummary()) %></p>
+      <p class="service-detail-intro lead mb-3"><%= h(svc.getSummary()) %></p>
+      <div class="service-detail-price" role="region" aria-label="Indicative pricing">
+        <span class="service-detail-price-label"><%= h(svc.getPriceLabel()) %></span>
+        <p class="service-detail-price-detail mb-0"><%= h(svc.getPriceDetail()) %></p>
+      </div>
     </header>
 
     <div class="row g-4 mb-4">

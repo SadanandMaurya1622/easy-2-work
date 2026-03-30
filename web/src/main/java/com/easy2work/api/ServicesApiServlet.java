@@ -26,6 +26,8 @@ public class ServicesApiServlet extends HttpServlet {
             row.put("code", d.getCode());
             row.put("title", d.getTitle());
             row.put("summary", d.getSummary());
+            row.put("priceLabel", d.getPriceLabel());
+            row.put("priceDetail", d.getPriceDetail());
             row.put("imageUrl", d.getImageUrl());
             row.put("detailPath", ctx + "/service?id=" + d.getCode());
             items.add(row);

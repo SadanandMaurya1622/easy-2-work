@@ -54,20 +54,34 @@
   50% { transform: translateY(-4px); }
 }
 
-.animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
-.animate-fade-in-down { animation: fadeInDown 0.5s ease-out forwards; }
-.animate-slide-in-left { animation: slideInLeft 0.5s ease-out forwards; }
-.animate-slide-in-right { animation: slideInRight 0.5s ease-out forwards; }
-.animate-scale-in { animation: scaleIn 0.4s ease-out forwards; }
-.animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
-.animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
-.animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
-.animate-delay-4 { animation-delay: 0.4s; opacity: 0; }
-.animate-delay-5 { animation-delay: 0.5s; opacity: 0; }
-.animate-delay-6 { animation-delay: 0.6s; opacity: 0; }
-.animate-delay-7 { animation-delay: 0.7s; opacity: 0; }
-.animate-delay-8 { animation-delay: 0.8s; opacity: 0; }
+.animate-fade-in { animation: fadeIn 0.6s ease-out both; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out both; }
+.animate-fade-in-down { animation: fadeInDown 0.5s ease-out both; }
+.animate-slide-in-left { animation: slideInLeft 0.5s ease-out both; }
+.animate-slide-in-right { animation: slideInRight 0.5s ease-out both; }
+.animate-scale-in { animation: scaleIn 0.4s ease-out both; }
+/* Only delay — do not set opacity: 0 here; with animations off, cards would stay invisible. */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }
+.animate-delay-7 { animation-delay: 0.7s; }
+.animate-delay-8 { animation-delay: 0.8s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-slide-in-left,
+  .animate-slide-in-right,
+  .animate-scale-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 html { scroll-behavior: smooth; }
 body {
@@ -600,6 +614,27 @@ a.service-card-link:focus-visible {
 }
 .service-detail-title { font-weight: 800; margin-bottom: 0.75rem; color: var(--dark); letter-spacing: -0.02em; }
 .service-detail-intro { color: #444; line-height: 1.75; font-size: 1.08rem; }
+
+.service-detail-price {
+  max-width: 36rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(25, 135, 84, 0.08) 0%, rgba(25, 135, 84, 0.02) 100%);
+  border: 1px solid rgba(25, 135, 84, 0.2);
+}
+.service-detail-price-label {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--success, #198754);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+.service-detail-price-detail {
+  font-size: 0.95rem;
+  color: #495057;
+  line-height: 1.55;
+}
 
 .service-detail-card {
   border-radius: 18px;

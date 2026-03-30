@@ -5,6 +5,12 @@
          version="6.0">
   <display-name>Easy2WorkSite</display-name>
 
+  <!-- Optional admin key if E2W_ADMIN_KEY env is not set. When MySQL is on, leave empty and use env only. -->
+  <context-param>
+    <param-name>easy2workAdminKey</param-name>
+    <param-value></param-value>
+  </context-param>
+
   <context-param>
     <param-name>jdbcUrl</param-name>
     <param-value></param-value>
@@ -120,6 +126,19 @@
   <servlet-mapping>
     <servlet-name>ServiceDetailServlet</servlet-name>
     <url-pattern>/service</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminBookingsServlet</servlet-name>
+    <servlet-class>com.easy2work.servlet.AdminBookingsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminBookingsServlet</servlet-name>
+    <url-pattern>/admin/bookings</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminBookingsServlet</servlet-name>
+    <url-pattern>/admin-bookings</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

@@ -36,3 +36,7 @@ CREATE TABLE IF NOT EXISTS service_booking (
 
 -- After job done (admin / backend): UPDATE service_booking SET status = 'COMPLETED' WHERE id = ?;
 -- Cancel: status = 'CANCELLED'. My Booking page groups COMPLETED vs pending (PENDING, ACCEPTED, IN_PROGRESS, etc.).
+--
+-- Admin web UI: with MySQL, set env E2W_ADMIN_KEY (or web.xml context-param easy2workAdminKey).
+-- Without JDBC, local Jetty uses fixed demo key easy2work-local-dev — see web/ADMIN-BOOKINGS.md.
+-- Or query this table in MySQL / Metabase / Grafana for reports.

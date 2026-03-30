@@ -10,6 +10,8 @@ public record ServiceDetail(
         String title,
         String imageUrl,
         String summary,
+        String priceLabel,
+        String priceDetail,
         List<String> weProvide,
         List<String> fromYou,
         List<String> notIncluded,
@@ -30,6 +32,14 @@ public record ServiceDetail(
 
     public String getSummary() {
         return summary;
+    }
+
+    public String getPriceLabel() {
+        return priceLabel;
+    }
+
+    public String getPriceDetail() {
+        return priceDetail;
     }
 
     public List<String> getWeProvide() {

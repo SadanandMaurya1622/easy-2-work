@@ -38,4 +38,11 @@ public final class MemoryBookingStore {
         out.sort(Comparator.comparing(ServiceBooking::createdAt).reversed());
         return out;
     }
+
+    /** Newest first (for admin). Copy of internal list. */
+    public List<ServiceBooking> listAllByCreatedDesc() {
+        List<ServiceBooking> out = new ArrayList<>(bookings);
+        out.sort(Comparator.comparing(ServiceBooking::createdAt).reversed());
+        return out;
+    }
 }

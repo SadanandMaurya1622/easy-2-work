@@ -23,6 +23,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1200&q=85",
                     "Ghar par safe electrical check aur repair — chhota kaam ho ya wiring/switch/MCB jaisi common problems. "
                             + "Partner standard tools ke saath aata hai; pehle safety, phir kaam.",
+                    "From ₹199",
+                    "Visit + basic diagnosis. Spare parts, concealed wiring & heavy rework billed separately after on-site estimate.",
                     List.of(
                             "Fault finding: switch, socket, loose wiring, tripping MCB (basic level)",
                             "Tube-light, bulb holder, fan connection / basic fitting (scope ke hisaab se)",
@@ -49,6 +51,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1631545914464-f152c32b1b2c?w=1200&q=85",
                     "AC ki cooling weak hai, smell aa rahi hai, ya season se pehle service chahiye? "
                             + "Filter, coil cleaning, drain check aur basic performance test — ghar par.",
+                    "From ₹449",
+                    "Per split AC standard servicing. Gas top-up, PCB repair & spare parts charged as per actual use.",
                     List.of(
                             "Indoor unit: filter wash, visible coil & blower area cleaning (scope ke hisaab se)",
                             "Outdoor unit: dust cleanup, fins check jahan safely reachable ho",
@@ -75,6 +79,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=85",
                     "Desert cooler thanda nahi kar raha, pump ya fan kharab, ya paani overflow? "
                             + "Ghar par basic repair aur seasonal tune-up.",
+                    "From ₹249",
+                    "Basic repair & seasonal tune-up. New motor, pads or major body work quoted after inspection.",
                     List.of(
                             "Pump, motor, fan belt / coupling basic check & repair",
                             "Cooling pads condition check; replacement guidance + fitting if arranged",
@@ -100,6 +106,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=1200&q=85",
                     "Ghar par washing + drying + ironing help — busy week ya mehmaan ke baad extra haath. "
                             + "Load size aur time pehle clear karte hain.",
+                    "From ₹299",
+                    "Per agreed session (load & duration). Extra load, dry-clean only items or special care may cost more.",
                     List.of(
                             "Machine wash ya bucket wash — jo booking mein agree ho",
                             "Drying (rack/sun/limited spin) aur folding",
@@ -125,6 +133,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&q=85",
                     "Glass, frame aur sill ki safai — andar safe heights; bahar sirf jahan "
                             + "bina risk ke pahunch ho (ground / low floors / safe balcony).",
+                    "From ₹149",
+                    "Per window (inside + safely reachable outside). High-rise rope/facade jobs priced separately.",
                     List.of(
                             "Glass streak-free cleaning — safe liquid / tools",
                             "Frame, sill, track basic wipe (reachable)",
@@ -150,6 +160,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=85",
                     "Bartan dhona, sink / slab wipe, halka organize — roz ka load ya party ke baad cleanup. "
                             + "Samay pehle tay; zyada kaam = zyada ghante.",
+                    "From ₹199",
+                    "Per hour kitchen help. Deep chimney, oven chemical clean or extra hours quoted on visit.",
                     List.of(
                             "Utensils wash, rinse, dry stack",
                             "Sink, slab, splash area wipe",
@@ -175,6 +187,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=85",
                     "Balcony / utility area: jhaadu, pocha, cobweb, dry leaves — "
                             + "fresh feel ke liye quick turnaround.",
+                    "From ₹279",
+                    "Standard balcony or utility cleanup. Very large area, heavy stain or pressure wash may be extra.",
                     List.of(
                             "Dry sweep + wet mop floor",
                             "Railing wipe (reachable)",
@@ -200,6 +214,8 @@ public final class ServiceCatalog {
                     "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=85",
                     "Tiles, fixtures, corners — scrub + disinfect focus. "
                             + "Bathroom size & condition booking note mein batayein taaki sahi time bhejein.",
+                    "From ₹399",
+                    "One standard bathroom deep clean. Multiple bathrooms, heavy scaling or add-ons quoted before work.",
                     List.of(
                             "Wall tiles, floor, corners scrub",
                             "WC, basin, shower area, taps chrome wipe",

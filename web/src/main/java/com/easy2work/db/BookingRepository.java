@@ -82,25 +82,51 @@ public final class BookingRepository {
                 if (!PhoneKey.matchesStored(phone, key10)) {
                     continue;
                 }
-                Timestamp pref = rs.getTimestamp("preferred_at");
-                LocalDateTime prefAt = pref == null ? null : pref.toLocalDateTime();
-                Timestamp cr = rs.getTimestamp("created_at");
-                Instant created = cr == null ? Instant.now() : cr.toInstant();
-                String em = rs.getString("email");
-                out.add(new ServiceBooking(
-                        rs.getLong("id"),
-                        rs.getString("customer_name"),
-                        phone,
-                        em == null ? "" : em,
-                        rs.getString("service_type"),
-                        rs.getString("description"),
-                        rs.getString("address"),
-                        prefAt,
-                        rs.getString("status"),
-                        created
-                ));
+                out.add(readRow(rs));
             }
         }
         return out;
+    }
+
+    /** Admin: newest bookings first (cap to protect DB). */
+    public List<ServiceBooking> findAllOrderByCreatedDesc(int limit) throws Exception {
+        int cap = Math.min(Math.max(limit, 1), 2_000);
+        final String sql = """
+            SELECT id, customer_name, phone, email, service_type, description, address, preferred_at, status, created_at
+            FROM service_booking
+            ORDER BY created_at DESC
+            LIMIT ?
+            """;
+        List<ServiceBooking> out = new ArrayList<>();
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, cap);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    out.add(readRow(rs));
+                }
+            }
+        }
+        return out;
+    }
+
+    private static ServiceBooking readRow(ResultSet rs) throws Exception {
+        Timestamp pref = rs.getTimestamp("preferred_at");
+        LocalDateTime prefAt = pref == null ? null : pref.toLocalDateTime();
+        Timestamp cr = rs.getTimestamp("created_at");
+        Instant created = cr == null ? Instant.now() : cr.toInstant();
+        String em = rs.getString("email");
+        return new ServiceBooking(
+                rs.getLong("id"),
+                rs.getString("customer_name"),
+                rs.getString("phone"),
+                em == null ? "" : em,
+                rs.getString("service_type"),
+                rs.getString("description"),
+                rs.getString("address"),
+                prefAt,
+                rs.getString("status"),
+                created
+        );
     }
 }

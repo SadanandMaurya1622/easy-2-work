@@ -33,6 +33,8 @@ public class ServiceDetailApiServlet extends HttpServlet {
         body.put("code", d.getCode());
         body.put("title", d.getTitle());
         body.put("summary", d.getSummary());
+        body.put("priceLabel", d.getPriceLabel());
+        body.put("priceDetail", d.getPriceDetail());
         body.put("imageUrl", d.getImageUrl());
         body.put("weProvide", d.getWeProvide());
         body.put("fromYou", d.getFromYou());
