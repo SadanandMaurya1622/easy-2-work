@@ -39,7 +39,7 @@
   <link href="<%= c %>/css/style.css" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>" data-preselect-service="<c:out value='${effServiceType}'/>">
-<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <main class="book-page container">
     <h1>Book a service</h1>
@@ -109,7 +109,7 @@
     </div>
   </main>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/footer.jsp" %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

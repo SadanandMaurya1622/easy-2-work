@@ -14,7 +14,7 @@
   <link href="<%= c %>/css/style.css" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>">
-<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <c:if test="${param.booked == '1'}">
     <div class="container pt-3">
@@ -234,7 +234,7 @@
 
   <section id="faqs" class="faq-section">
     <div class="container">
-      <h2 class="section-title section-title-faq text-center">FAQ's</h2>
+      <h2 class="section-title section-title-faq text-center">FAQs</h2>
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="accordion accordion-faq" id="accordionFAQ">
@@ -251,7 +251,7 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">How do I book a service?</button>
               </h3>
               <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
-                <div class="accordion-body">Register on the website, log in, and submit a complaint (service request) with service type, description, and address. An engineer will accept the job and you can track the status from your dashboard.</div>
+                <div class="accordion-body">Open <strong>Book a service</strong>, fill in your details, choose the service type, describe what you need, and add your address. Submit the form — you'll get a reference number. We'll contact you by phone or WhatsApp to confirm timing; you can also view your bookings under <strong>My Booking</strong>.</div>
               </div>
             </div>
             <div class="accordion-item">
@@ -283,7 +283,7 @@
     </div>
   </section>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/footer.jsp" %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

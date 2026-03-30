@@ -25,13 +25,12 @@
   </context-param>
 
   <listener>
-    <listener-class>com.easy2work.config.DataSourceListener</listener-class>
+    <listener-class>com.easy2work.backend.config.DatabaseConfig</listener-class>
   </listener>
 
-  <!-- JSON / REST-style APIs: com.easy2work.api.* -->
   <filter>
     <filter-name>ApiCorsFilter</filter-name>
-    <filter-class>com.easy2work.api.ApiCorsFilter</filter-class>
+    <filter-class>com.easy2work.backend.api.ApiCorsFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ApiCorsFilter</filter-name>
@@ -40,7 +39,7 @@
 
   <servlet>
     <servlet-name>ApiDiscoveryServlet</servlet-name>
-    <servlet-class>com.easy2work.api.ApiDiscoveryServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.ApiDiscoveryServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ApiDiscoveryServlet</servlet-name>
@@ -49,7 +48,7 @@
 
   <servlet>
     <servlet-name>StatsApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.StatsApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.StatsApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StatsApiServlet</servlet-name>
@@ -58,7 +57,7 @@
 
   <servlet>
     <servlet-name>HealthApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.HealthApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.HealthApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HealthApiServlet</servlet-name>
@@ -67,7 +66,7 @@
 
   <servlet>
     <servlet-name>ServicesApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.ServicesApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.ServicesApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ServicesApiServlet</servlet-name>
@@ -76,7 +75,7 @@
 
   <servlet>
     <servlet-name>ServiceDetailApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.ServiceDetailApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.ServiceDetailApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ServiceDetailApiServlet</servlet-name>
@@ -85,7 +84,7 @@
 
   <servlet>
     <servlet-name>BookingsApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.BookingsApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.BookingsApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BookingsApiServlet</servlet-name>
@@ -94,7 +93,7 @@
 
   <servlet>
     <servlet-name>BookingApiServlet</servlet-name>
-    <servlet-class>com.easy2work.api.BookingApiServlet</servlet-class>
+    <servlet-class>com.easy2work.backend.api.BookingApiServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BookingApiServlet</servlet-name>
@@ -103,7 +102,7 @@
 
   <servlet>
     <servlet-name>BookingServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.BookingServlet</servlet-class>
+    <servlet-class>com.easy2work.web.servlet.BookingServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BookingServlet</servlet-name>
@@ -112,7 +111,7 @@
 
   <servlet>
     <servlet-name>MyBookingsServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.MyBookingsServlet</servlet-class>
+    <servlet-class>com.easy2work.web.servlet.MyBookingsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MyBookingsServlet</servlet-name>
@@ -121,7 +120,7 @@
 
   <servlet>
     <servlet-name>ServiceDetailServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.ServiceDetailServlet</servlet-class>
+    <servlet-class>com.easy2work.web.servlet.ServiceDetailServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ServiceDetailServlet</servlet-name>
@@ -129,15 +128,15 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>AdminBookingsServlet</servlet-name>
-    <servlet-class>com.easy2work.servlet.AdminBookingsServlet</servlet-class>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AdminBookingsServlet</servlet-name>
+    <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin/bookings</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AdminBookingsServlet</servlet-name>
+    <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin-bookings</url-pattern>
   </servlet-mapping>
 

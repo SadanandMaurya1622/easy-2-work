@@ -148,6 +148,6 @@ LIMIT 100;
 
 ## Related code
 
-- Servlet: `com.easy2work.servlet.AdminBookingsServlet`
-- JSP: `web/src/main/webapp/WEB-INF/jsp/admin-bookings.jsp`
+- Servlet: `com.easy2work.web.servlet.AdminServlet`
+- JSP: `web/src/main/webapp/admin/bookings.jsp`
 - URL mapping: `web/src/main/webapp/WEB-INF/web.xml` → `/admin/bookings` and `/admin-bookings`

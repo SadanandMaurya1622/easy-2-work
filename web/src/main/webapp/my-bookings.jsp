@@ -13,11 +13,11 @@
   <link href="<%= c %>/css/style.css" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>">
-<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <main class="my-bookings-page container py-5">
     <h1 class="mb-2">My bookings</h1>
-    <p class="text-muted mb-4">Apna wahi mobile number dalein jo booking form par use kiya tha — <strong>saari bookings</strong> neeche table mein dikhengi (date, service, address, mobile).</p>
+    <p class="text-muted mb-4">Enter the same mobile number you used on the booking form — <strong>all bookings</strong> appear in the table below (date, service, address, mobile).</p>
 
     <div class="card border-0 shadow-sm mb-5" style="max-width: 480px; border-radius: 16px;">
       <div class="card-body p-4">
@@ -38,12 +38,12 @@
     <c:if test="${not empty phoneKey and empty lookupError}">
       <c:choose>
         <c:when test="${empty bookingsAll}">
-          <div class="alert alert-light border">Is number par koi booking record nahi mila. Pehle <a href="<%= c %>/book.jsp">book</a> karein ya number check karein.</div>
+          <div class="alert alert-light border">No bookings found for this number. <a href="<%= c %>/book.jsp">Book a service</a> first or check the number you entered.</div>
         </c:when>
         <c:otherwise>
 
           <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-            <h2 class="h5 mb-0">Aapki saari bookings</h2>
+            <h2 class="h5 mb-0">Your bookings</h2>
             <span class="text-muted small">Total: <strong><c:out value="${bookingCount}"/></strong></span>
           </div>
 
@@ -80,14 +80,14 @@
             </table>
           </div>
 
-          <a href="<%= c %>/book.jsp" class="btn btn-success">Nayi service book karein</a>
+          <a href="<%= c %>/book.jsp" class="btn btn-success">Book another service</a>
         </c:otherwise>
       </c:choose>
     </c:if>
     </div>
   </main>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/footer.jsp" %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

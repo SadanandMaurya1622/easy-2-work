@@ -38,7 +38,7 @@
   <link href="<%= c %>/css/style.css" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>">
-<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <main class="service-detail-page container pb-5">
     <p class="mb-3"><a href="<%= c %>/#services" class="text-success text-decoration-none fw-semibold">&larr; Back to services</a></p>
@@ -61,7 +61,7 @@
         <div class="service-detail-card service-detail-card--we h-100">
           <div class="service-detail-card-icon" aria-hidden="true">✓</div>
           <h2 class="service-detail-card-title">What we’ll do for you</h2>
-          <p class="service-detail-card-sub">Is service mein hum yeh deliver karte hain</p>
+          <p class="service-detail-card-sub">What this service includes</p>
           <ul class="service-detail-list">
 <% for (String line : svc.getWeProvide()) { %>
             <li><%= h(line) %></li>
@@ -73,7 +73,7 @@
         <div class="service-detail-card service-detail-card--you h-100">
           <div class="service-detail-card-icon service-detail-card-icon--you" aria-hidden="true">→</div>
           <h2 class="service-detail-card-title">What we need from your side</h2>
-          <p class="service-detail-card-sub">Aapki taraf se yeh tayar / clear hona helpful hai</p>
+          <p class="service-detail-card-sub">Please have the following ready — it helps the visit go smoothly</p>
           <ul class="service-detail-list">
 <% for (String line : svc.getFromYou()) { %>
             <li><%= h(line) %></li>
@@ -85,25 +85,12 @@
 
     <div class="service-detail-card service-detail-card--note mb-4">
       <h2 class="service-detail-card-title h5 mb-2">Usually not included</h2>
-      <p class="service-detail-card-sub mb-3">Samanya taur par in cheezon mein alag visit, parts ya specialist lag sakta hai</p>
+      <p class="service-detail-card-sub mb-3">These usually need a separate visit, parts, or a specialist</p>
       <ul class="service-detail-list service-detail-list--compact mb-0">
 <% for (String line : svc.getNotIncluded()) { %>
         <li><%= h(line) %></li>
 <% } %>
       </ul>
-    </div>
-
-    <div class="service-detail-flow mb-5">
-      <h2 class="service-detail-flow-title">After you book — what happens</h2>
-      <p class="service-detail-card-sub text-center mb-4">Booking ke baad flow (step-by-step)</p>
-      <ol class="service-detail-steps list-unstyled mb-0">
-<% int step = 0; for (String line : svc.getVisitSteps()) { step++; %>
-        <li class="service-detail-step">
-          <span class="service-detail-step-num"><%= step %></span>
-          <span class="service-detail-step-text"><%= h(line) %></span>
-        </li>
-<% } %>
-      </ol>
     </div>
 
     <div class="service-detail-actions">
@@ -112,7 +99,7 @@
     </div>
   </main>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/footer.jsp" %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

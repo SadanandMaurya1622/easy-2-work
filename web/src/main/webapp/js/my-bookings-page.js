@@ -25,11 +25,11 @@
     var rows = data.all || [];
     var base = Easy2WorkApi.contextPath();
     if (!rows.length) {
-      return '<div class="alert alert-light border">Is number par koi booking record nahi mila. Pehle <a href="' + esc(base) + '/book.jsp">book</a> karein ya number check karein.</div>';
+      return '<div class="alert alert-light border">No bookings found for this number. <a href="' + esc(base) + '/book.jsp">Book a service</a> first or check the number you entered.</div>';
     }
     var h = '';
     h += '<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">';
-    h += '<h2 class="h5 mb-0">Aapki saari bookings</h2>';
+    h += '<h2 class="h5 mb-0">Your bookings</h2>';
     h += '<span class="text-muted small">Total: <strong>' + rows.length + '</strong></span></div>';
     h += '<div class="table-responsive mb-4"><table class="table table-hover align-middle my-bookings-table my-bookings-table-full">';
     h += '<thead class="table-light"><tr><th>Ref</th><th>Booking date</th><th>Service name</th><th>Address</th><th>Mobile</th><th>Status</th></tr></thead><tbody>';
@@ -44,7 +44,7 @@
       h += '</tr>';
     });
     h += '</tbody></table></div>';
-    h += '<a href="' + esc(base) + '/book.jsp" class="btn btn-success">Nayi service book karein</a>';
+    h += '<a href="' + esc(base) + '/book.jsp" class="btn btn-success">Book another service</a>';
     return h;
   }
 

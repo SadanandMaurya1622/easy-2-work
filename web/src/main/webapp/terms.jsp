@@ -21,7 +21,7 @@
   </style>
 </head>
 <body data-ctx="<%= c %>">
-<%@ include file="/WEB-INF/jspf/navbar.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <main class="legal-page container">
     <a href="<%= c %>/" class="legal-back">&larr; Back to Home</a>
@@ -53,7 +53,7 @@
     <p>For questions about these terms, contact us through the Easy 2 Work app or website.</p>
   </main>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+<%@ include file="/WEB-INF/jsp/includes/footer.jsp" %>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
