@@ -199,16 +199,6 @@ Paths are relative to the deployed servlet context (for example `/easy2work-web`
 
 ---
 
-## 🎥 Video Demo
-
-<div align="center">
-
-
-
-<  
-
-/div>
-
 ---
 
 <div align="center">
