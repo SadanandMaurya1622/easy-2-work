@@ -206,6 +206,14 @@ Paths are relative to the deployed servlet context (for example `/easy2work-web`
       <b>Order Tracking</b>
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/screenshots/my-bookings.png" width="350"/><br/>
+      <b>My Bookings</b>
+    </td>
+    <td align="center">
+    </td>
+  </tr>
 </table>
 
 </div>
