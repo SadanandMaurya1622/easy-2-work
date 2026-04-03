@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Maven
+**/target/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Logs / env
+*.log
+.env
+.env.local

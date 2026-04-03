@@ -2,7 +2,7 @@
 
 **India's quick Home Service App** – Book trusted cleaning & repair help at your doorstep.
 
-![Easy 2 Work](web/images/logo.png)
+![Easy 2 Work](web-ui/src/main/webapp/images/logo.png)
 
 ---
 
@@ -10,27 +10,18 @@
 
 ```
 easy2work/
-├── web/                    → HTML/CSS static website (landing only)
-│   ├── index.html          # Landing – hero, services, how it works, FAQs
-│   ├── terms.html          # Terms & Conditions
-│   ├── privacy.html        # Privacy Policy
-│   ├── css/style.css       # Styling
-│   └── images/             # Logo, steps image (logo.png, steps-section.png)
-│
-├── app/                    → Flutter app (User + Worker)
-│   ├── lib/
-│   │   ├── core/           # App constants, config
-│   │   ├── auth/           # Login, registration
-│   │   ├── user/           # User flows – services, cart, track
-│   │   ├── worker/         # Worker flows – jobs, accept, navigate
-│   │   └── shared/         # Shared widgets, utilities
-│   └── pubspec.yaml
-│
-└── README.md
+├── backend/                → Java (Maven): APIs, domain, DB
+│   ├── catalog/            # Service catalogue copy / labels
+│   ├── core/               # Models, booking rules
+│   └── service/            # Servlets, repos, JSON (artifact: easy2work-backend)
+├── web-ui/                 → Jakarta JSP site + static assets (WAR / Jetty)
+├── pom.xml                 # Root Maven reactor
+├── README.md
+└── .gitignore
 ```
 
-- **Web**: Open `web/index.html` in a browser or deploy the `web/` folder (e.g. GitHub Pages).
-- **App**: From repo root run `cd app && flutter create .` (once, to add android/ios), then `flutter pub get && flutter run`.
+- **Site**: From repo root, `mvn -pl web-ui jetty:run` (or `cd web-ui && mvn jetty:run`), then open http://localhost:8080/
+- **App** (optional): From repo root run `cd app && flutter create .` (once, to add android/ios), then `flutter pub get && flutter run` if the `app/` folder exists.
 
 ---
 
@@ -120,9 +111,9 @@ App **Flutter** से बनेगा (Android + iOS दोनों के ल
 
 ---
 
-## Website (web/) – Reference
+## Website (web-ui/) – Reference
 
-Landing site lives in **`web/`**: `index.html`, `terms.html`, `privacy.html`, `css/style.css`, `images/`. Use it as reference for the app UI and copy.
+Landing and pages live in **`web-ui/src/main/webapp/`**: e.g. `index.jsp`, `book.jsp`, `terms.jsp`, `privacy.jsp`, `css/style.css`, `images/`. Use it as reference for the app UI and copy.
 
 ---
 
@@ -142,7 +133,7 @@ Landing site lives in **`web/`**: `index.html`, `terms.html`, `privacy.html`, `c
 
 ## Contact
 
-- **Website**: Open `web/index.html` or deploy the `web/` folder.
+- **Website**: Run Jetty from `web-ui` (see above) or build the WAR and deploy to your servlet container.
 - **Service area**: Varanasi (और शहरों में expand हो रहा है)
 
 ---

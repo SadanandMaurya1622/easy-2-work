@@ -11,10 +11,10 @@
   <name>Easy 2 Work Parent</name>
 
   <modules>
-    <module>catalog</module>
-    <module>core</module>
-    <module>backend</module>
-    <module>web</module>
+    <module>backend/catalog</module>
+    <module>backend/core</module>
+    <module>backend/service</module>
+    <module>web-ui</module>
   </modules>
 
   <properties>

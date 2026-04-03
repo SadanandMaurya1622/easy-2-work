@@ -99,7 +99,7 @@ Table columns roughly:
 
 Jab production DB laga ho, admin **phpMyAdmin**, **MySQL Workbench**, ya koi BI tool se bhi dekh sakta hai.
 
-Table: **`service_booking`** (schema: `web/src/main/resources/db/schema.sql`)
+Table: **`service_booking`** (schema: `web-ui/src/main/resources/db/schema.sql`)
 
 Useful columns:
 
@@ -142,12 +142,12 @@ LIMIT 100;
 1. **URL mein `YOUR_SECRET` mat likho** — woh sirf documentation placeholder hai. Local (bina MySQL): key = `easy2work-local-dev`.
 2. **Do URLs chal sakti hain:** `/admin/bookings` ya **`/admin-bookings`** (same servlet).
 3. **MySQL env set hai** (`E2W_JDBC_URL`) lekin `E2W_ADMIN_KEY` nahi — pehle generic Jetty **404** dikhta tha; ab **503** + plain English instructions aani chahiye. Fix: `E2W_ADMIN_KEY` set karein, ya local demo ke liye DB env hata kar restart karein.
-4. **Purana server:** `web` folder se `mvn clean package` phir dubara `mvn jetty:run` — taaki naya `web.xml` aur servlet class load ho.
+4. **Purana server:** `web-ui` folder se `mvn clean package` phir dubara `mvn jetty:run` — taaki naya `web.xml` aur servlet class load ho.
 
 ---
 
 ## Related code
 
 - Servlet: `com.easy2work.web.servlet.AdminServlet`
-- JSP: `web/src/main/webapp/admin/bookings.jsp`
-- URL mapping: `web/src/main/webapp/WEB-INF/web.xml` → `/admin/bookings` and `/admin-bookings`
+- JSP: `web-ui/src/main/webapp/admin/bookings.jsp`
+- URL mapping: `web-ui/src/main/webapp/WEB-INF/web.xml` → `/admin/bookings` and `/admin-bookings`

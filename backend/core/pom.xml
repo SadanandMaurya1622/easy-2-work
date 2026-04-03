@@ -8,13 +8,21 @@
     <groupId>com.easy2work</groupId>
     <artifactId>easy2work-parent</artifactId>
     <version>1.0.0</version>
-    <relativePath>../pom.xml</relativePath>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <artifactId>easy2work-catalog</artifactId>
+  <artifactId>easy2work-core</artifactId>
   <packaging>jar</packaging>
-  <name>Easy 2 Work Catalog</name>
-  <description>Service catalogue (titles, copy, pricing labels)</description>
+  <name>Easy 2 Work Core</name>
+  <description>Common models, booking rules, in-memory store, utilities</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.easy2work</groupId>
+      <artifactId>easy2work-catalog</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
