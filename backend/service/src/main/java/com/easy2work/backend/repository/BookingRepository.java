@@ -109,6 +109,22 @@ public final class BookingRepository {
         return out;
     }
 
+    /** Admin: update booking status. */
+    public boolean updateStatus(long bookingId, String newStatus) throws Exception {
+        final String sql = """
+            UPDATE service_booking
+            SET status = ?
+            WHERE id = ?
+            """;
+        try (Connection c = dataSource.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, newStatus);
+            ps.setLong(2, bookingId);
+            int updated = ps.executeUpdate();
+            return updated > 0;
+        }
+    }
+
     private static Booking readRow(ResultSet rs) throws Exception {
         Timestamp pref = rs.getTimestamp("preferred_at");
         LocalDateTime prefAt = pref == null ? null : pref.toLocalDateTime();

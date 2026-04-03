@@ -48,4 +48,29 @@ public final class MemoryBookingStore {
         out.sort(Comparator.comparing(Booking::createdAt).reversed());
         return out;
     }
+
+    /** Admin: update booking status. Returns true if found and updated. */
+    public boolean updateStatus(long bookingId, String newStatus) {
+        for (int i = 0; i < bookings.size(); i++) {
+            Booking b = bookings.get(i);
+            if (b.id() == bookingId) {
+                // Create new immutable Booking with updated status
+                Booking updated = new Booking(
+                    b.id(),
+                    b.customerName(),
+                    b.phone(),
+                    b.email(),
+                    b.serviceType(),
+                    b.description(),
+                    b.address(),
+                    b.preferredAt(),
+                    newStatus,
+                    b.createdAt()
+                );
+                bookings.set(i, updated);
+                return true;
+            }
+        }
+        return false;
+    }
 }

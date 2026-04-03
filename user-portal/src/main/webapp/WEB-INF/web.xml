@@ -140,6 +140,15 @@
     <url-pattern>/admin-bookings</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>AdminUpdateStatusServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminUpdateStatusServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminUpdateStatusServlet</servlet-name>
+    <url-pattern>/admin/update-status</url-pattern>
+  </servlet-mapping>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
