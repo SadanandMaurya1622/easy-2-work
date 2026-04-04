@@ -16,14 +16,60 @@
 <body data-ctx="<%= c %>">
 <%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
+  <!-- Booking Success Modal -->
   <c:if test="${param.booked == '1'}">
-    <div class="container pt-3">
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Thank you! Your booking request was received.
-        <c:if test="${not empty param.ref}"> Reference #<c:out value="${param.ref}"/>.</c:if>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-body text-center p-5">
+            <div class="mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#198754" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+            </div>
+            <h3 class="mb-3 fw-bold text-success">Booking Successful!</h3>
+            <p class="mb-2 text-muted">Thank you! Your booking request was received.</p>
+            <c:if test="${not empty param.ref}">
+              <div class="alert alert-light border mb-4">
+                <small class="text-muted d-block">Reference Number</small>
+                <h5 class="mb-0 fw-bold text-dark">#<c:out value="${param.ref}"/></h5>
+              </div>
+            </c:if>
+            <p class="small text-muted mb-4">We'll contact you soon to confirm the timing.</p>
+            <div class="progress mb-2" style="height: 4px;">
+              <div class="progress-bar bg-success" role="progressbar" id="autoCloseProgress" style="width: 100%"></div>
+            </div>
+            <small class="text-muted">This will close automatically in <span id="countdownTimer">5</span> seconds</small>
+          </div>
+        </div>
       </div>
     </div>
+    <script>
+      // Auto-show and auto-hide booking success modal
+      document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('bookingSuccessModal'));
+        modal.show();
+
+        var countdown = 5;
+        var timerElement = document.getElementById('countdownTimer');
+        var progressBar = document.getElementById('autoCloseProgress');
+
+        var interval = setInterval(function() {
+          countdown--;
+          timerElement.textContent = countdown;
+          progressBar.style.width = (countdown / 5 * 100) + '%';
+
+          if (countdown <= 0) {
+            clearInterval(interval);
+            modal.hide();
+            // Remove query params from URL
+            setTimeout(function() {
+              window.history.replaceState({}, document.title, window.location.pathname);
+            }, 300);
+          }
+        }, 1000);
+      });
+    </script>
   </c:if>
 
   <section class="hero hero-pronto text-center" style="background-image: url('<%= c %>/images/logo.png');">
@@ -32,15 +78,15 @@
       <p class="hero-cities hero-cities-pronto animate-fade-in-up animate-delay-1">Now live in Varanasi & expanding to more cities.</p>
       <div class="hero-play-store animate-fade-in-up animate-delay-2 d-flex flex-wrap justify-content-center gap-3 align-items-center">
         <a href="<%= c %>/book.jsp" class="book-cta-btn">Book a service</a>
-        <a href="#" id="googlePlayBtn" class="play-store-btn" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <div class="play-store-btn play-store-btn-disabled" style="cursor: not-allowed; opacity: 0.7;">
           <span class="play-store-icon">
             <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
           </span>
           <span class="play-store-text">
-            <span class="play-store-label">GET IT ON</span>
-            <span class="play-store-name">Google Play</span>
+            <span class="play-store-label">LAUNCHING SOON</span>
+            <span class="play-store-name">Mobile App</span>
           </span>
-        </a>
+        </div>
       </div>
       <p class="hero-subline hero-subline-pronto animate-fade-in-up animate-delay-3">Your home, professionally cleaned — exactly when you need it.</p>
     </div>

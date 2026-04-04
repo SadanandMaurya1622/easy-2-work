@@ -198,10 +198,14 @@ body {
   text-decoration: none;
   padding: 0.35rem 0.6rem;
   border-radius: 9999px;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, font-weight 0.2s ease;
   white-space: nowrap;
 }
 .navbar-pronto-pill .nav-link:hover { color: #198754 !important; }
+.navbar-pronto-pill .nav-link.active {
+  color: #198754 !important;
+  font-weight: 700 !important;
+}
 .navbar-pronto-brand {
   font-weight: 700 !important;
   font-size: 1.1rem !important;

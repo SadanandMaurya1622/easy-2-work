@@ -14,7 +14,7 @@
     <module>backend/catalog</module>
     <module>backend/core</module>
     <module>backend/service</module>
-    <module>web-ui</module>
+    <module>user-portal</module>
     <module>admin-portal</module>
   </modules>
 
