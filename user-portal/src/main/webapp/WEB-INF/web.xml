@@ -37,6 +37,19 @@
     <url-pattern>/api/*</url-pattern>
   </filter-mapping>
 
+  <filter>
+    <filter-name>UserAuthFilter</filter-name>
+    <filter-class>com.easy2work.web.filter.UserAuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>UserAuthFilter</filter-name>
+    <url-pattern>/booking</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>UserAuthFilter</filter-name>
+    <url-pattern>/my-bookings</url-pattern>
+  </filter-mapping>
+
   <servlet>
     <servlet-name>ApiDiscoveryServlet</servlet-name>
     <servlet-class>com.easy2work.backend.api.ApiDiscoveryServlet</servlet-class>
@@ -98,6 +111,42 @@
   <servlet-mapping>
     <servlet-name>BookingApiServlet</servlet-name>
     <url-pattern>/api/booking</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ReviewsApiServlet</servlet-name>
+    <servlet-class>com.easy2work.backend.api.ReviewsApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewsApiServlet</servlet-name>
+    <url-pattern>/api/reviews</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.UserLoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.UserRegisterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
   </servlet-mapping>
 
   <servlet>

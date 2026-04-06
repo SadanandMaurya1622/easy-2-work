@@ -246,34 +246,16 @@
     <div class="container">
       <h2 class="section-title text-center">User reviews and feedback</h2>
       <p class="section-subtitle text-center">See how Easy 2 Work has transformed users' experiences through their own words.</p>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="testimonial-card animate-fade-in-up animate-delay-1">
-            <p class="testimonial-text">"Quick and professional. The engineer fixed my AC in no time. Very satisfied."</p>
-            <div class="testimonial-author">
-              <strong>Rahul</strong>
-              <span class="text-muted">Varanasi</span>
-            </div>
+      <div class="row g-4" id="testimonialsContainer">
+        <!-- Reviews will be loaded dynamically from API -->
+        <div class="col-12 text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading reviews...</span>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="testimonial-card animate-fade-in-up animate-delay-2">
-            <p class="testimonial-text">"Simple process from booking to completion. No hassle. Would recommend."</p>
-            <div class="testimonial-author">
-              <strong>Priya</strong>
-              <span class="text-muted">Varanasi</span>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="testimonial-card animate-fade-in-up animate-delay-3">
-            <p class="testimonial-text">"Reliable and transparent. Got my wiring issue resolved the same day. Great service."</p>
-            <div class="testimonial-author">
-              <strong>Vikram</strong>
-              <span class="text-muted">Varanasi</span>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="<%= c %>/reviews.jsp" class="btn btn-outline-primary">View All Reviews</a>
       </div>
     </div>
   </section>
@@ -336,5 +318,61 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="<%= c %>/js/easy2work-api.js"></script>
   <script src="<%= c %>/js/site.js"></script>
+  <script>
+    // Load reviews from API for testimonials section
+    async function loadTestimonials() {
+      try {
+        const response = await fetch('<%= c %>/api/reviews?limit=3');
+        const data = await response.json();
+
+        if (data.ok && data.reviews && data.reviews.length > 0) {
+          displayTestimonials(data.reviews);
+        } else {
+          // Show message if no reviews
+          document.getElementById('testimonialsContainer').innerHTML =
+            '<div class="col-12 text-center"><p class="text-muted">No reviews yet. Be the first to share your experience!</p></div>';
+        }
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+        document.getElementById('testimonialsContainer').innerHTML =
+          '<div class="col-12 text-center"><p class="text-muted">Unable to load reviews at this time.</p></div>';
+      }
+    }
+
+    function displayTestimonials(reviews) {
+      const container = document.getElementById('testimonialsContainer');
+      let html = '';
+
+      reviews.forEach((review, index) => {
+        const delay = index + 1;
+        const stars = escapeHtml(review.stars);
+        const comment = escapeHtml(review.comment);
+        const customerName = escapeHtml(review.customerName);
+        const serviceType = escapeHtml(review.serviceType);
+
+        html += '<div class="col-md-4">' +
+          '<div class="testimonial-card animate-fade-in-up animate-delay-' + delay + '">' +
+          '<div class="mb-2" style="color: #FFB700; font-size: 1.2rem;">' + stars + '</div>' +
+          '<p class="testimonial-text">"' + comment + '"</p>' +
+          '<div class="testimonial-author">' +
+          '<strong>' + customerName + '</strong>' +
+          '<span class="text-muted">' + serviceType + '</span>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Load testimonials when page loads
+    document.addEventListener('DOMContentLoaded', loadTestimonials);
+  </script>
 </body>
 </html>

@@ -3,6 +3,10 @@ com/easy2work/core/util/DateUtil.class
 com/easy2work/core/booking/MemoryBookingStore.class
 com/easy2work/core/model/Booking.class
 com/easy2work/core/model/User.class
+com/easy2work/core/model/User$UserRole.class
+com/easy2work/core/review/MemoryReviewStore.class
+com/easy2work/core/model/Review.class
+com/easy2work/core/security/PasswordUtil.class
 com/easy2work/core/booking/BookingRules.class
 com/easy2work/core/model/Service.class
 com/easy2work/core/util/PhoneKey.class

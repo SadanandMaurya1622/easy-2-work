@@ -1,0 +1,219 @@
+================================================================================
+EASY 2 WORK — PRESENTATION TEXT (English, large-font friendly)
+================================================================================
+
+HOW TO USE
+----------
+• Google Slides: Copy one "SLIDE" block at a time. Paste into the title box
+  and body; keep font sizes large (title ~60–96 pt, bullets ~32–44 pt).
+
+• PowerPoint: Open View → Outline. Paste from SECTION B below (tabs matter).
+  Or paste slide-by-slide from SECTION A into Title and Content placeholders.
+
+================================================================================
+SECTION A — COPY ONE SLIDE AT A TIME
+================================================================================
+
+--- SLIDE 1 ---
+TITLE:
+Easy 2 Work
+
+SUBTITLE / BODY:
+On-Demand Home Services — Web Platform
+Trusted help for cleaning, repairs, and maintenance — at your doorstep.
+Varanasi · Version 1.0.0 · Active development
+
+--- SLIDE 2 ---
+TITLE:
+The Problem
+
+BODY:
+• Finding reliable home help is hard
+• Booking should be simple and clear
+• Payments and history should stay in one place
+
+--- SLIDE 3 ---
+TITLE:
+Our Solution
+
+BODY:
+• A web platform linking customers with service professionals
+• Online booking and tracking
+• Admin tools for users, services, and bookings
+
+--- SLIDE 4 ---
+TITLE:
+Customer Features
+
+BODY:
+• 8+ service categories
+• 3 steps: Select → Cart → Pay
+• Payments: Cash, UPI, Card, Net Banking
+• History and tracking
+• Ratings and reviews
+
+--- SLIDE 5 ---
+TITLE:
+Professionals & Admin
+
+BODY:
+Service professionals:
+• Job management · Earnings overview · Schedule & customer details
+
+Admin:
+• User and service management · Booking management and analytics
+
+--- SLIDE 6 ---
+TITLE:
+Technology — Backend
+
+BODY:
+• Java 17+
+• Jakarta Servlet / JSP
+• JDBC + MySQL 8
+• Maven build
+• Jackson / JSON-P
+• Jetty (dev) · Tomcat (production WAR)
+
+--- SLIDE 7 ---
+TITLE:
+Technology — Frontend
+
+BODY:
+• HTML5 · CSS3 · JavaScript (ES6+)
+• Bootstrap 5
+• jQuery
+• Font Awesome
+
+--- SLIDE 8 ---
+TITLE:
+Project Layout
+
+BODY:
+• backend/ — catalog, models, servlets, data access
+• web-ui/ — JSP pages, CSS, JS, images
+• docs/ — database and documentation
+
+--- SLIDE 9 ---
+TITLE:
+Key Web Pages
+
+BODY:
+• Home · Book · Track
+• Login · Sign up · Profile
+• History · Terms · Privacy
+
+--- SLIDE 10 ---
+TITLE:
+User Journey
+
+BODY:
+1. Browse services
+2. Book and pay
+3. Track and view history
+
+--- SLIDE 11 ---
+TITLE:
+APIs (Web UI)
+
+BODY:
+• GET /api/health · GET /api/stats
+• GET /api/services · GET /api/service-detail
+• GET /api/bookings · POST /api/booking
+
+--- SLIDE 12 ---
+TITLE:
+Data & Admin
+
+BODY:
+• MySQL stores bookings (e.g. service_booking table)
+• Admin booking view uses a secret key in production
+• Local demo without MySQL uses in-memory data (resets on restart)
+
+--- SLIDE 13 ---
+TITLE:
+Outcomes
+
+BODY:
+• End-to-end web application
+• Booking workflow + APIs + admin visibility
+• Clear deploy path (WAR on Tomcat)
+
+--- SLIDE 14 ---
+TITLE:
+Thank You
+
+BODY:
+Easy 2 Work
+Your home, professionally serviced — exactly when you need it.
+
+================================================================================
+SECTION B — POWERPOINT OUTLINE (tabs = bullet level; paste in Outline view)
+================================================================================
+
+Easy 2 Work
+	On-Demand Home Services — Web Platform
+	Trusted help at your doorstep
+	Varanasi · v1.0.0 · Active development
+
+The Problem
+	Finding reliable home help is hard
+	Simple, clear booking
+	Payments and history in one place
+
+Our Solution
+	Web platform: customers ↔ professionals
+	Online booking and tracking
+	Admin: users, services, bookings
+
+Customer Features
+	8+ categories
+	Select → Cart → Pay
+	Cash, UPI, Card, Net Banking
+	History, tracking, ratings & reviews
+
+Professionals & Admin
+	Pros: jobs, earnings, schedule, customer details
+	Admin: users, services, bookings, analytics
+
+Technology — Backend
+	Java 17+, Jakarta Servlet/JSP, JDBC, MySQL 8
+	Maven, Jackson/JSON-P
+	Jetty (dev), Tomcat (prod)
+
+Technology — Frontend
+	HTML5, CSS3, JavaScript ES6+
+	Bootstrap 5, jQuery, Font Awesome
+
+Project Layout
+	backend/ — catalog, models, servlets, repositories
+	web-ui/ — JSP, CSS, JS, images
+	docs/ — DB & docs
+
+Key Web Pages
+	Home, Book, Track, Login, Sign up, Profile
+	History, Terms, Privacy
+
+User Journey
+	Browse → Book & pay → Track & history
+
+APIs (Web UI)
+	GET /api/health, /api/stats
+	GET /api/services, /api/service-detail
+	GET /api/bookings, POST /api/booking
+
+Data & Admin
+	MySQL: service_booking
+	Production admin: secret key
+	Local: in-memory demo (no DB)
+
+Outcomes
+	Full web app, APIs, admin
+	Deploy via WAR
+
+Thank You
+	Easy 2 Work — professionally serviced when you need it
+
+================================================================================
+END
+================================================================================

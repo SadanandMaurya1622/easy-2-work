@@ -201,10 +201,14 @@ body {
   transition: color 0.2s ease, font-weight 0.2s ease;
   white-space: nowrap;
 }
-.navbar-pronto-pill .nav-link:hover { color: #198754 !important; }
+.navbar-pronto-pill .nav-link:hover {
+  color: #198754 !important;
+  background-color: rgba(25, 135, 84, 0.1);
+}
 .navbar-pronto-pill .nav-link.active {
   color: #198754 !important;
   font-weight: 700 !important;
+  background-color: rgba(25, 135, 84, 0.15);
 }
 .navbar-pronto-brand {
   font-weight: 700 !important;
@@ -214,6 +218,28 @@ body {
   flex-shrink: 0;
 }
 .navbar-pronto-brand:hover { color: #218838 !important; }
+
+/* Circular Logo in Navigation */
+.nav-link-logo {
+  padding: 0.35rem 0.6rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navbar-logo-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #198754;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.nav-link-logo:hover .navbar-logo-circle {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(25, 135, 84, 0.3);
+}
+
 @media (max-width: 991.98px) {
   .navbar-pronto-outer { justify-content: space-between; }
   .navbar-pronto-pill {

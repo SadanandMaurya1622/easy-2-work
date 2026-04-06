@@ -9,6 +9,7 @@
           <a class="nav-link" href="<%= c %>/#why-us" data-section="why-us">Why us</a>
           <a class="nav-link" href="<%= c %>/#services" data-section="services">Services</a>
           <a class="navbar-brand navbar-pronto-brand" href="<%= c %>/">Easy 2 Work</a>
+          <a class="nav-link" href="<%= c %>/reviews.jsp" data-page="reviews">Reviews</a>
           <a class="nav-link nav-link-my-booking" href="<%= c %>/my-bookings.jsp" data-page="my-bookings">My Booking</a>
           <a class="nav-link" href="<%= c %>/#how" data-section="how">How it works</a>
         </div>
@@ -32,6 +33,10 @@
 
         // For My Booking page
         if (link.dataset.page === 'my-bookings' && currentPath.includes('my-bookings')) {
+          link.classList.add('active');
+        }
+        // For Reviews page
+        else if (link.dataset.page === 'reviews' && currentPath.includes('reviews')) {
           link.classList.add('active');
         }
         // For hash sections on homepage
