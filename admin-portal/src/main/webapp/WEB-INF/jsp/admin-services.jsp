@@ -26,7 +26,7 @@
       <div class="card">
         <div class="card-header fw-semibold">Add New Service</div>
         <div class="card-body">
-          <form method="post" action="<%= c %>/services">
+          <form method="post" action="<%= c %>/services" enctype="multipart/form-data">
             <input type="hidden" name="action" value="add">
             <div class="mb-2">
               <label class="form-label">Code</label>
@@ -43,6 +43,10 @@
             <div class="mb-3">
               <label class="form-label">Description</label>
               <textarea class="form-control form-control-sm" name="description" rows="3" placeholder="Short service description"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Image</label>
+              <input type="file" class="form-control form-control-sm" name="image" accept="image/*">
             </div>
             <button class="btn btn-primary btn-sm w-100" type="submit">Add Service</button>
           </form>
@@ -63,6 +67,7 @@
               <th>Code</th>
               <th>Title</th>
               <th>Base Price</th>
+              <th>Image</th>
               <th>Description</th>
               <th></th>
             </tr>
@@ -72,8 +77,13 @@
               <tr>
                 <td class="fw-semibold"><c:out value="${s.code}"/></td>
                 <td><c:out value="${s.title}"/></td>
-                <td><c:out value="${s.basePrice}"/></td>
-                <td class="small"><c:out value="${s.description}"/></td>
+                <td><c:out value="${s.priceLabel}"/></td>
+                <td>
+                  <c:if test="${not empty s.imageDataUrl}">
+                    <img src="${s.imageDataUrl}" alt="service" style="width:48px;height:36px;object-fit:cover;border-radius:6px;">
+                  </c:if>
+                </td>
+                <td class="small"><c:out value="${s.summary}"/></td>
                 <td class="text-end">
                   <form method="post" action="<%= c %>/services">
                     <input type="hidden" name="action" value="delete">

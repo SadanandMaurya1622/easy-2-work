@@ -117,6 +117,39 @@
   <script src="<%= c %>/js/book-page.js"></script>
   <script>
     (function ($) {
+      function loadServiceOptions() {
+        if (!window.Easy2WorkApi) {
+          return;
+        }
+        var select = document.getElementById('serviceType');
+        if (!select) {
+          return;
+        }
+        var selected = select.value;
+        window.Easy2WorkApi.services()
+          .done(function (res) {
+            if (!res || !res.ok || !Array.isArray(res.services)) {
+              return;
+            }
+            res.services.forEach(function (s) {
+              if (!s || !s.code) {
+                return;
+              }
+              if (select.querySelector('option[value="' + s.code + '"]')) {
+                return;
+              }
+              var opt = document.createElement('option');
+              opt.value = s.code;
+              opt.textContent = s.title || s.code;
+              select.appendChild(opt);
+            });
+            if (selected) {
+              select.value = selected;
+            }
+          });
+      }
+
+      loadServiceOptions();
       if (window.Easy2WorkApi) {
         return;
       }

@@ -1,10 +1,13 @@
 com/easy2work/backend/api/ApiJson.class
+com/easy2work/backend/catalog/ManagedServiceCatalog$ManagedService.class
+com/easy2work/backend/catalog/ManagedServiceCatalog$1.class
 com/easy2work/backend/api/BookingApiServlet.class
 com/easy2work/backend/api/ServiceDetailApiServlet.class
 com/easy2work/backend/api/ServicesApiServlet.class
 com/easy2work/backend/api/StatsApiServlet.class
 com/easy2work/backend/repository/UserRepository.class
 com/easy2work/backend/api/ApiCorsFilter.class
+com/easy2work/backend/catalog/ManagedServiceCatalog.class
 com/easy2work/backend/api/ApiDiscoveryServlet.class
 com/easy2work/backend/api/HealthApiServlet.class
 com/easy2work/backend/repository/StatsRepository.class

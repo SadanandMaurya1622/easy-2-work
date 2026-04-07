@@ -1,5 +1,6 @@
 package com.easy2work.backend.api;
 
+import com.easy2work.backend.catalog.ManagedServiceCatalog;
 import com.easy2work.catalog.ServiceCatalog;
 import com.easy2work.catalog.ServiceDetail;
 import jakarta.servlet.http.HttpServlet;
@@ -30,6 +31,17 @@ public class ServicesApiServlet extends HttpServlet {
             row.put("priceDetail", d.getPriceDetail());
             row.put("imageUrl", d.getImageUrl());
             row.put("detailPath", ctx + "/service?id=" + d.getCode());
+            items.add(row);
+        }
+        for (ManagedServiceCatalog.ManagedService s : ManagedServiceCatalog.list()) {
+            Map<String, Object> row = new LinkedHashMap<>();
+            row.put("code", s.code());
+            row.put("title", s.title());
+            row.put("summary", s.summary());
+            row.put("priceLabel", s.priceLabel());
+            row.put("priceDetail", "Final price depends on scope.");
+            row.put("imageUrl", s.imageDataUrl());
+            row.put("detailPath", ctx + "/service?id=" + s.code());
             items.add(row);
         }
         Map<String, Object> body = new LinkedHashMap<>();

@@ -169,64 +169,7 @@
     </div>
     <div class="services-scroll-fullwidth">
       <div class="services-marquee" id="servicesMarquee">
-      <div class="services-scroll">
-        <a href="<%= c %>/service?id=ELECTRICAL" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-1">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Electrical Repair</h5>
-            <p class="text-muted mb-0 small">Wiring, fuse, switch and electrical fault resolution.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=AC" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-2">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1631545914464-f152c32b1b2c?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>AC Servicing</h5>
-            <p class="text-muted mb-0 small">AC installation, repair and maintenance.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=COOLER" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-3">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Cooler Repair</h5>
-            <p class="text-muted mb-0 small">Cooler repair and servicing at home.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=LAUNDRY" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-4">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Laundry</h5>
-            <p class="text-muted mb-0 small">Washing, ironing and laundry help at home.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=WINDOW" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-5">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Window cleaning</h5>
-            <p class="text-muted mb-0 small">Inside and outside window cleaning.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=UTENSILS" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-6">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Utensils</h5>
-            <p class="text-muted mb-0 small">Utensil washing and kitchen cleanup.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=BALCONY" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-7">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Balcony cleaning</h5>
-            <p class="text-muted mb-0 small">Balcony sweep, mop and upkeep.</p>
-          </div>
-        </a>
-        <a href="<%= c %>/service?id=BATHROOM" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-8">
-          <div class="service-card-img" style="background-image: url('https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=85')"></div>
-          <div class="service-card-body">
-            <h5>Bathroom cleaning</h5>
-            <p class="text-muted mb-0 small">Bathroom deep clean and sanitisation.</p>
-          </div>
-        </a>
-      </div>
+      <div class="services-scroll" id="servicesCardsContainer"></div>
       </div>
     </div>
   </section>
@@ -372,7 +315,38 @@
     }
 
     // Load testimonials when page loads
-    document.addEventListener('DOMContentLoaded', loadTestimonials);
+    function loadServiceCards() {
+      fetch('<%= c %>/api/services')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var container = document.getElementById('servicesCardsContainer');
+          if (!container || !data || !data.ok || !Array.isArray(data.services)) {
+            return;
+          }
+          var html = '';
+          data.services.forEach(function (s, index) {
+            var title = escapeHtml(s.title || '');
+            var summary = escapeHtml(s.summary || '');
+            var imageUrl = escapeHtml(s.imageUrl || '');
+            var code = encodeURIComponent(s.code || '');
+            var delay = (index % 8) + 1;
+            html += '<a href="<%= c %>/service?id=' + code + '" class="service-card service-card-with-img service-card-link animate-fade-in-up animate-delay-' + delay + '">' +
+              '<div class="service-card-img" style="background-image: url(\'' + imageUrl + '\')"></div>' +
+              '<div class="service-card-body">' +
+              '<h5>' + title + '</h5>' +
+              '<p class="text-muted mb-0 small">' + summary + '</p>' +
+              '</div>' +
+              '</a>';
+          });
+          container.innerHTML = html;
+        })
+        .catch(function () {});
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      loadTestimonials();
+      loadServiceCards();
+    });
   </script>
 </body>
 </html>

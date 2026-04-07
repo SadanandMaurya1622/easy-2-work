@@ -1,5 +1,6 @@
 package com.easy2work.web.servlet;
 
+import com.easy2work.backend.catalog.ManagedServiceCatalog;
 import com.easy2work.catalog.ServiceCatalog;
 import com.easy2work.catalog.ServiceDetail;
 import jakarta.servlet.ServletException;
@@ -24,11 +25,18 @@ public class ServiceDetailServlet extends HttpServlet {
             rawId = "";
         }
         var opt = ServiceCatalog.find(rawId);
-        if (opt.isEmpty()) {
-            resp.sendRedirect(req.getContextPath() + "/#services");
-            return;
+        ServiceDetail detail;
+        if (opt.isPresent()) {
+            detail = opt.get();
+        } else {
+            var managed = ManagedServiceCatalog.findByCode(rawId);
+            if (managed.isEmpty()) {
+                resp.sendRedirect(req.getContextPath() + "/#services");
+                return;
+            }
+            detail = ManagedServiceCatalog.toServiceDetail(managed.get());
         }
-        req.setAttribute(ATTR_SERVICE, opt.get());
+        req.setAttribute(ATTR_SERVICE, detail);
         req.getRequestDispatcher("/service-detail.jsp").forward(req, resp);
     }
 }

@@ -1,5 +1,6 @@
 package com.easy2work.backend.api;
 
+import com.easy2work.backend.catalog.ManagedServiceCatalog;
 import com.easy2work.catalog.ServiceCatalog;
 import com.easy2work.catalog.ServiceDetail;
 import jakarta.servlet.http.HttpServlet;
@@ -22,11 +23,17 @@ public class ServiceDetailApiServlet extends HttpServlet {
             raw = "";
         }
         var opt = ServiceCatalog.find(raw);
-        if (opt.isEmpty()) {
-            ApiJson.writeError(resp, HttpServletResponse.SC_NOT_FOUND, "Unknown service id");
-            return;
+        ServiceDetail d;
+        if (opt.isPresent()) {
+            d = opt.get();
+        } else {
+            var managed = ManagedServiceCatalog.findByCode(raw);
+            if (managed.isEmpty()) {
+                ApiJson.writeError(resp, HttpServletResponse.SC_NOT_FOUND, "Unknown service id");
+                return;
+            }
+            d = ManagedServiceCatalog.toServiceDetail(managed.get());
         }
-        ServiceDetail d = opt.get();
         String ctx = req.getContextPath();
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("ok", true);
