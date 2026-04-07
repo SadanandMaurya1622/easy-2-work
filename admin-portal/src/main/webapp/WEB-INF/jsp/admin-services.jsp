@@ -86,7 +86,7 @@
           <div class="card">
             <div class="card-header fw-semibold">Add New Service</div>
             <div class="card-body">
-              <form method="post" action="<%= c %>/services" enctype="multipart/form-data">
+              <form id="adminServiceForm" method="post" action="<%= c %>/services" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="mb-2">
                   <label class="form-label">Code <span class="text-muted small">(optional)</span></label>
@@ -128,7 +128,7 @@
                   <label class="form-label">Image</label>
                   <input type="file" class="form-control form-control-sm" name="image" accept="image/*">
                 </div>
-                <button class="btn btn-primary btn-sm w-100" type="submit">Add Service</button>
+                <button id="addServiceBtn" class="btn btn-primary btn-sm w-100" type="submit">Add Service</button>
               </form>
             </div>
           </div>
@@ -165,9 +165,9 @@
                 </td>
                 <td class="small"><c:out value="${s.summary}"/></td>
                 <td class="text-end">
-                  <form method="post" action="<%= c %>/services">
+                  <form class="delete-service-form" method="post" action="<%= c %>/services">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="${s.id}">
+                    <input type="hidden" name="id" value="${s.id}" class="service-id">
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                   </form>
                 </td>
@@ -182,5 +182,67 @@
     </div>
   </div>
 </div>
+<script>
+  (function () {
+    var form = document.getElementById('adminServiceForm');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = document.getElementById('addServiceBtn');
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = 'Saving...';
+        }
+        var fd = new FormData(form);
+        fetch('<%= c %>/api/admin/services', {
+          method: 'POST',
+          body: fd,
+          credentials: 'same-origin'
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (body) {
+            if (!body || !body.ok) {
+              throw new Error((body && body.error) ? body.error : 'Unable to add service');
+            }
+            window.location.reload();
+          })
+          .catch(function (err) {
+            alert(err.message || 'Unable to add service');
+          })
+          .finally(function () {
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = 'Add Service';
+            }
+          });
+      });
+    }
+
+    document.querySelectorAll('.delete-service-form').forEach(function (delForm) {
+      delForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var idField = delForm.querySelector('.service-id');
+        var serviceId = idField ? idField.value : '';
+        if (!serviceId) {
+          return;
+        }
+        fetch('<%= c %>/api/admin/services?id=' + encodeURIComponent(serviceId), {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (body) {
+            if (!body || !body.ok) {
+              throw new Error((body && body.error) ? body.error : 'Unable to delete service');
+            }
+            window.location.reload();
+          })
+          .catch(function (err) {
+            alert(err.message || 'Unable to delete service');
+          });
+      });
+    });
+  })();
+</script>
 </body>
 </html>

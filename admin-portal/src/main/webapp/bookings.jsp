@@ -302,10 +302,10 @@
                       </span>
                     </td>
                     <td class="text-nowrap">
-                      <form method="post" action="<%= c %>/update-status" class="d-inline">
+                      <form method="post" action="<%= c %>/update-status" class="d-inline booking-status-form">
                         <input type="hidden" name="bookingId" value="<c:out value="${b.id}"/>"/>
                         <input type="hidden" name="key" value="<c:out value="${param.key}"/>"/>
-                        <select name="status" class="form-select form-select-sm" style="width: auto; display: inline-block; min-width: 140px;" onchange="this.form.submit()">
+                        <select name="status" class="form-select form-select-sm booking-status-select" style="width: auto; display: inline-block; min-width: 140px;">
                           <option value="">-- Change Status --</option>
                           <option value="PENDING" <c:if test="${b.status == 'PENDING'}">selected</c:if>>PENDING</option>
                           <option value="CONFIRMED" <c:if test="${b.status == 'CONFIRMED'}">selected</c:if>>CONFIRMED</option>
@@ -354,6 +354,36 @@
         searchInput.value = "";
         statusFilter.value = "";
         applyFilters();
+      });
+
+      document.querySelectorAll(".booking-status-form").forEach(function (form) {
+        var select = form.querySelector(".booking-status-select");
+        if (!select) {
+          return;
+        }
+        select.addEventListener("change", function () {
+          var bookingId = form.querySelector('input[name="bookingId"]')?.value || "";
+          var status = select.value || "";
+          if (!bookingId || !status) {
+            return;
+          }
+          fetch("<%= c %>/api/admin/bookings/status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({ bookingId: bookingId, status: status })
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (body) {
+              if (!body || !body.ok) {
+                throw new Error((body && body.error) ? body.error : "Status update failed");
+              }
+              window.location.reload();
+            })
+            .catch(function (err) {
+              alert(err.message || "Status update failed");
+            });
+        });
       });
     })();
   </script>

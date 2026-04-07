@@ -191,15 +191,7 @@ public final class ManagedServiceCatalog {
         if (override != null && !override.isBlank()) {
             return Paths.get(override.trim());
         }
-        Path cwd = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
-        Path p = cwd;
-        while (p != null) {
-            if (Files.exists(p.resolve("admin-portal")) && Files.exists(p.resolve("user-portal")) && Files.exists(p.resolve("backend"))) {
-                return p.resolve(".easy2work");
-            }
-            p = p.getParent();
-        }
-        return cwd.resolve(".easy2work");
+        return Paths.get(System.getProperty("user.home"), ".easy2work");
     }
 
     public record ManagedService(

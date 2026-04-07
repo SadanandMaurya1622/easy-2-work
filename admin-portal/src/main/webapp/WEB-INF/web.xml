@@ -171,6 +171,15 @@
     <url-pattern>/api/admin/services</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>AdminBookingStatusApiServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminBookingStatusApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminBookingStatusApiServlet</servlet-name>
+    <url-pattern>/api/admin/bookings/status</url-pattern>
+  </servlet-mapping>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

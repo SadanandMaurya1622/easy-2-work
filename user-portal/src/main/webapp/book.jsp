@@ -144,15 +144,50 @@
       }
 
       loadServiceOptions();
-      if (window.Easy2WorkApi) {
-        return;
-      }
       $('#bookingForm').on('submit', function (e) {
+        e.preventDefault();
         $(this).addClass('was-validated');
         if (!this.checkValidity()) {
-          e.preventDefault();
           e.stopPropagation();
+          return;
         }
+        if (!window.Easy2WorkApi) {
+          this.submit();
+          return;
+        }
+        var payload = {
+          customerName: $('#customerName').val() || '',
+          phone: $('#phone').val() || '',
+          email: $('#email').val() || '',
+          serviceType: $('#serviceType').val() || '',
+          description: $('#description').val() || '',
+          address: $('#address').val() || '',
+          preferredAt: $('#preferredAt').val() || ''
+        };
+        var $btn = $(this).find('button[type="submit"]');
+        $btn.prop('disabled', true).text('Submitting...');
+        window.Easy2WorkApi.createBooking(payload)
+          .done(function (res) {
+            if (res && res.ok) {
+              var ref = encodeURIComponent(res.id || '');
+              window.location.href = '<%= c %>/?booked=1&ref=' + ref;
+              return;
+            }
+            alert((res && res.error) ? res.error : 'Could not save booking.');
+          })
+          .fail(function (xhr) {
+            var msg = 'Could not save booking.';
+            try {
+              var body = JSON.parse(xhr.responseText);
+              if (body && body.error) {
+                msg = body.error;
+              }
+            } catch (ignore) {}
+            alert(msg);
+          })
+          .always(function () {
+            $btn.prop('disabled', false).text('Submit booking');
+          });
       });
     })(jQuery);
   </script>
