@@ -43,6 +43,10 @@
     <filter-name>AdminAuthFilter</filter-name>
     <url-pattern>/update-status</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/services</url-pattern>
+  </filter-mapping>
 
   <!-- Admin Login Servlet -->
   <servlet>
@@ -82,6 +86,16 @@
   <servlet-mapping>
     <servlet-name>AdminUpdateStatusServlet</servlet-name>
     <url-pattern>/update-status</url-pattern>
+  </servlet-mapping>
+
+  <!-- Admin Services Servlet -->
+  <servlet>
+    <servlet-name>AdminServicesServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminServicesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServicesServlet</servlet-name>
+    <url-pattern>/services</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

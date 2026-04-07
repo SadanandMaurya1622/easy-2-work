@@ -9,12 +9,17 @@
   <title>Admin – Bookings Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    :root {
+      --admin-primary: #5a67d8;
+      --admin-accent: #7c3aed;
+    }
     .navbar-admin {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-accent) 100%);
     }
     .status-badge {
       font-size: 0.75rem;
       padding: 0.25rem 0.5rem;
+      border-radius: 999px;
     }
     .status-PENDING { background-color: #ffc107; color: #000; }
     .status-CONFIRMED { background-color: #0dcaf0; color: #000; }
@@ -25,6 +30,67 @@
       background: white;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .stat-card {
+      border: 0;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .tools-card {
+      border: 0;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+    }
+    .table thead th {
+      white-space: nowrap;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .muted-label {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+    .admin-layout {
+      min-height: calc(100vh - 56px);
+    }
+    .sidebar {
+      background: #111827;
+      color: #cbd5e1;
+      border-radius: 14px;
+      padding: 1rem;
+      position: sticky;
+      top: 1rem;
+    }
+    .sidebar-title {
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+    .sidebar .nav-link {
+      color: #cbd5e1;
+      border-radius: 10px;
+      padding: 0.55rem 0.7rem;
+      margin-bottom: 0.2rem;
+      font-size: 0.92rem;
+    }
+    .sidebar .nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    .sidebar .nav-link.active {
+      background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent));
+      color: #fff;
+      font-weight: 600;
+    }
+    .sidebar .nav-link.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -40,47 +106,154 @@
         Easy 2 Work Admin Portal
       </span>
       <span class="navbar-text text-white">
-        Port: 8081
+        Port: <%= request.getServerPort() %>
       </span>
     </div>
   </nav>
 
-  <div class="container-fluid py-4 px-3 px-md-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1 class="h3 mb-0">Bookings Management</h1>
-      <div>
-        <a href="<%= c %>/bookings?key=<c:out value="${param.key}"/>" class="btn btn-sm btn-outline-primary me-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-          </svg>
-          Refresh
-        </a>
-        <a href="<%= c %>/" class="btn btn-sm btn-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
-          </svg>
-          Dashboard
-        </a>
-      </div>
-    </div>
+  <c:set var="pendingCount" value="0" />
+  <c:set var="confirmedCount" value="0" />
+  <c:set var="progressCount" value="0" />
+  <c:set var="completedCount" value="0" />
+  <c:set var="cancelledCount" value="0" />
+  <c:forEach var="bookingStat" items="${adminBookings}">
+    <c:if test="${bookingStat.status == 'PENDING'}"><c:set var="pendingCount" value="${pendingCount + 1}" /></c:if>
+    <c:if test="${bookingStat.status == 'CONFIRMED'}"><c:set var="confirmedCount" value="${confirmedCount + 1}" /></c:if>
+    <c:if test="${bookingStat.status == 'IN_PROGRESS'}"><c:set var="progressCount" value="${progressCount + 1}" /></c:if>
+    <c:if test="${bookingStat.status == 'COMPLETED'}"><c:set var="completedCount" value="${completedCount + 1}" /></c:if>
+    <c:if test="${bookingStat.status == 'CANCELLED'}"><c:set var="cancelledCount" value="${cancelledCount + 1}" /></c:if>
+  </c:forEach>
 
-    <c:if test="${param.updated != null}">
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Booking #<c:out value="${param.updated}"/> status updated successfully.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="container-fluid py-4 px-3 px-md-4 admin-layout">
+    <div class="row g-3">
+      <div class="col-12 col-lg-3 col-xl-2">
+        <aside class="sidebar">
+          <div class="sidebar-title">Admin Menu</div>
+          <nav class="nav flex-column">
+            <a class="nav-link active" href="<%= c %>/bookings">Bookings</a>
+            <a class="nav-link disabled" href="javascript:void(0)">User Management</a>
+            <a class="nav-link" href="<%= c %>/services">Service Add / Manage</a>
+            <a class="nav-link disabled" href="javascript:void(0)">Reports</a>
+            <a class="nav-link disabled" href="javascript:void(0)">Settings</a>
+            <a class="nav-link" href="<%= c %>/logout">Logout</a>
+          </nav>
+        </aside>
       </div>
-    </c:if>
+      <div class="col-12 col-lg-9 col-xl-10">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="h3 mb-0">Bookings Management</h1>
+          <div>
+            <a href="<%= c %>/bookings?key=<c:out value="${param.key}"/>" class="btn btn-sm btn-outline-primary me-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+              </svg>
+              Refresh
+            </a>
+            <a href="<%= c %>/services" class="btn btn-sm btn-outline-success me-2">
+              Services
+            </a>
+            <a href="<%= c %>/" class="btn btn-sm btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+              </svg>
+              Dashboard
+            </a>
+          </div>
+        </div>
 
-    <c:if test="${not empty adminDemoKeyHint}">
+        <c:if test="${param.updated != null}">
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> Booking #<c:out value="${param.updated}"/> status updated successfully.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </c:if>
+
+        <c:if test="${not empty adminDemoKeyHint}">
       <div class="alert alert-info py-2 small mb-3" role="status">
         <strong>Local Demo Mode:</strong> Admin key is <code><c:out value="${adminDemoKeyHint}"/></code>.
         Test by placing a booking on <a href="http://localhost:8080/book.jsp" target="_blank" class="alert-link">the main site (port 8080)</a>,
         then refresh this page.
       </div>
-    </c:if>
+        </c:if>
 
-    <div class="row mb-3">
+        <div class="row g-3 mb-3">
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card">
+          <div class="card-body">
+            <div class="muted-label">Total</div>
+            <div class="stat-value"><c:out value="${adminBookingCount}"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card border-start border-4 border-warning">
+          <div class="card-body">
+            <div class="muted-label">Pending</div>
+            <div class="stat-value"><c:out value="${pendingCount}"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card border-start border-4 border-info">
+          <div class="card-body">
+            <div class="muted-label">Confirmed</div>
+            <div class="stat-value"><c:out value="${confirmedCount}"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card border-start border-4 border-primary">
+          <div class="card-body">
+            <div class="muted-label">In Progress</div>
+            <div class="stat-value"><c:out value="${progressCount}"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card border-start border-4 border-success">
+          <div class="card-body">
+            <div class="muted-label">Completed</div>
+            <div class="stat-value"><c:out value="${completedCount}"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <div class="card stat-card border-start border-4 border-danger">
+          <div class="card-body">
+            <div class="muted-label">Cancelled</div>
+            <div class="stat-value"><c:out value="${cancelledCount}"/></div>
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <div class="card tools-card mb-3">
+      <div class="card-body">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-6">
+            <label class="form-label small mb-1">Search (name / phone / service / ref)</label>
+            <input id="bookingSearch" type="text" class="form-control form-control-sm" placeholder="Type to filter bookings">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-1">Status filter</label>
+            <select id="statusFilter" class="form-select form-select-sm">
+              <option value="">All statuses</option>
+              <option value="PENDING">PENDING</option>
+              <option value="CONFIRMED">CONFIRMED</option>
+              <option value="IN_PROGRESS">IN_PROGRESS</option>
+              <option value="COMPLETED">COMPLETED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+          <div class="col-md-3 d-flex align-items-end">
+            <button id="clearFilters" type="button" class="btn btn-outline-secondary btn-sm w-100">Clear Filters</button>
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <div class="row mb-3">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
@@ -91,9 +264,9 @@
           </div>
         </div>
       </div>
-    </div>
+        </div>
 
-    <c:choose>
+        <c:choose>
       <c:when test="${empty adminBookings}">
         <div class="alert alert-secondary">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-inbox me-2" viewBox="0 0 16 16">
@@ -122,7 +295,7 @@
               </thead>
               <tbody>
                 <c:forEach var="b" items="${adminBookings}">
-                  <tr>
+                  <tr data-status="${b.status}">
                     <td class="text-nowrap fw-semibold">#<c:out value="${b.id}"/></td>
                     <td class="text-nowrap small"><c:out value="${b.bookedAtDisplay}"/></td>
                     <td><c:out value="${b.customerName}"/></td>
@@ -138,7 +311,7 @@
                       </span>
                     </td>
                     <td class="text-nowrap">
-                      <form method="post" action="<%= c %>/update-status" class="d-inline" onsubmit="return confirm('Update status for booking #<c:out value="${b.id}"/>?');">
+                      <form method="post" action="<%= c %>/update-status" class="d-inline">
                         <input type="hidden" name="bookingId" value="<c:out value="${b.id}"/>"/>
                         <input type="hidden" name="key" value="<c:out value="${param.key}"/>"/>
                         <select name="status" class="form-select form-select-sm" style="width: auto; display: inline-block; min-width: 140px;" onchange="this.form.submit()">
@@ -160,9 +333,38 @@
           </div>
         </div>
       </c:otherwise>
-    </c:choose>
+        </c:choose>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      const searchInput = document.getElementById("bookingSearch");
+      const statusFilter = document.getElementById("statusFilter");
+      const clearBtn = document.getElementById("clearFilters");
+      const rows = Array.from(document.querySelectorAll("tbody tr[data-status]"));
+
+      function applyFilters() {
+        const q = (searchInput.value || "").toLowerCase().trim();
+        const status = statusFilter.value;
+        rows.forEach((row) => {
+          const txt = row.textContent.toLowerCase();
+          const statusOk = !status || row.dataset.status === status;
+          const textOk = !q || txt.includes(q);
+          row.style.display = statusOk && textOk ? "" : "none";
+        });
+      }
+
+      searchInput?.addEventListener("input", applyFilters);
+      statusFilter?.addEventListener("change", applyFilters);
+      clearBtn?.addEventListener("click", () => {
+        searchInput.value = "";
+        statusFilter.value = "";
+        applyFilters();
+      });
+    })();
+  </script>
 </body>
 </html>

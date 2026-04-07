@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -44,6 +45,8 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        boolean sessionAuthenticated = session != null && session.getAttribute("adminEmail") != null;
         ServletContext ctx = req.getServletContext();
         String expected = resolveExpectedSecret(ctx);
         if (expected.isEmpty()) {
@@ -72,13 +75,15 @@ public class AdminServlet extends HttpServlet {
                     DEV_LOCAL_ADMIN_KEY);
         }
 
-        String provided = req.getHeader("X-Admin-Key");
-        if (provided == null || provided.isBlank()) {
-            provided = req.getParameter("key");
-        }
-        if (provided == null || !expected.equals(provided)) {
-            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
+        if (!sessionAuthenticated) {
+            String provided = req.getHeader("X-Admin-Key");
+            if (provided == null || provided.isBlank()) {
+                provided = req.getParameter("key");
+            }
+            if (provided == null || !expected.equals(provided)) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
         }
 
         try {

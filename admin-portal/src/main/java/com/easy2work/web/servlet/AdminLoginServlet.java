@@ -18,6 +18,8 @@ import java.util.Optional;
  * Servlet for handling admin login requests.
  */
 public class AdminLoginServlet extends HttpServlet {
+    private static final String DEMO_ADMIN_EMAIL = "admin@easy2work.com";
+    private static final String DEMO_ADMIN_PASSWORD = "admin123";
 
     private UserRepository getUserRepository() {
         DataSource ds = (DataSource) getServletContext().getAttribute(DatabaseConfig.CTX_DATASOURCE);
@@ -33,6 +35,7 @@ public class AdminLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String normalizedEmail = email == null ? "" : email.trim().toLowerCase();
 
         if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             req.setAttribute("error", "Email and password are required");
@@ -40,8 +43,20 @@ public class AdminLoginServlet extends HttpServlet {
             return;
         }
 
+        DataSource ds = (DataSource) getServletContext().getAttribute(DatabaseConfig.CTX_DATASOURCE);
+        // Dev fallback: allow login when database is not configured.
+        if (ds == null && DEMO_ADMIN_EMAIL.equals(normalizedEmail) && DEMO_ADMIN_PASSWORD.equals(password)) {
+            HttpSession session = req.getSession();
+            session.setAttribute("adminUser", DEMO_ADMIN_EMAIL);
+            session.setAttribute("adminId", 0L);
+            session.setAttribute("adminEmail", DEMO_ADMIN_EMAIL);
+            session.setAttribute("adminName", "Demo Admin");
+            resp.sendRedirect(req.getContextPath() + "/bookings");
+            return;
+        }
+
         UserRepository userRepository = getUserRepository();
-        Optional<User> userOpt = userRepository.findByEmail(email.trim().toLowerCase());
+        Optional<User> userOpt = userRepository.findByEmail(normalizedEmail);
 
         if (userOpt.isEmpty()) {
             req.setAttribute("error", "Invalid email or password");
