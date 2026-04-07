@@ -5,6 +5,8 @@ import com.easy2work.core.model.User;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -136,6 +138,28 @@ public class UserRepository {
      */
     public boolean emailExists(String email) {
         return findByEmail(email).isPresent();
+    }
+
+    public List<User> findAllOrderByCreatedDesc(int limit) {
+        if (dataSource == null) {
+            return List.of();
+        }
+        int cap = Math.min(Math.max(limit, 1), 1000);
+        String sql = "SELECT id, email, password_hash, first_name, last_name, phone, role, created_at, last_login_at " +
+                     "FROM users ORDER BY created_at DESC LIMIT ?";
+        List<User> out = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, cap);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    out.add(mapResultSetToUser(rs));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.severe("Error listing users: " + e.getMessage());
+        }
+        return out;
     }
 
     /**

@@ -1,8 +1,6 @@
 package com.easy2work.backend.api;
 
 import com.easy2work.backend.catalog.ManagedServiceCatalog;
-import com.easy2work.catalog.ServiceCatalog;
-import com.easy2work.catalog.ServiceDetail;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,17 +20,7 @@ public class ServicesApiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String ctx = req.getContextPath();
         List<Map<String, Object>> items = new ArrayList<>();
-        for (ServiceDetail d : ServiceCatalog.allServices()) {
-            Map<String, Object> row = new LinkedHashMap<>();
-            row.put("code", d.getCode());
-            row.put("title", d.getTitle());
-            row.put("summary", d.getSummary());
-            row.put("priceLabel", d.getPriceLabel());
-            row.put("priceDetail", d.getPriceDetail());
-            row.put("imageUrl", d.getImageUrl());
-            row.put("detailPath", ctx + "/service?id=" + d.getCode());
-            items.add(row);
-        }
+        // User portal should show only admin-managed services.
         for (ManagedServiceCatalog.ManagedService s : ManagedServiceCatalog.list()) {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("code", s.code());

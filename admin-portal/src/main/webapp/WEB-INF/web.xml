@@ -49,6 +49,22 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/users</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/reviews</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/reports</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/settings</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
     <url-pattern>/api/admin/*</url-pattern>
   </filter-mapping>
 
@@ -100,6 +116,42 @@
   <servlet-mapping>
     <servlet-name>AdminServicesServlet</servlet-name>
     <url-pattern>/services</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminUsersServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminUsersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminUsersServlet</servlet-name>
+    <url-pattern>/users</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminReviewsServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminReviewsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminReviewsServlet</servlet-name>
+    <url-pattern>/reviews</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminReportsServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminReportsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminReportsServlet</servlet-name>
+    <url-pattern>/reports</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AdminSettingsServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminSettingsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminSettingsServlet</servlet-name>
+    <url-pattern>/settings</url-pattern>
   </servlet-mapping>
 
   <servlet>

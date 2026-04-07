@@ -78,15 +78,6 @@
           <label class="form-label" for="serviceType">Service <span class="text-danger">*</span></label>
           <select class="form-select" id="serviceType" name="serviceType" required>
             <option value="" disabled ${empty effServiceType ? 'selected' : ''}>Choose…</option>
-            <option value="ELECTRICAL" ${effServiceType == 'ELECTRICAL' ? 'selected' : ''}>Electrical repair</option>
-            <option value="AC" ${effServiceType == 'AC' ? 'selected' : ''}>AC servicing</option>
-            <option value="COOLER" ${effServiceType == 'COOLER' ? 'selected' : ''}>Cooler repair</option>
-            <option value="LAUNDRY" ${effServiceType == 'LAUNDRY' ? 'selected' : ''}>Laundry</option>
-            <option value="WINDOW" ${effServiceType == 'WINDOW' ? 'selected' : ''}>Window cleaning</option>
-            <option value="UTENSILS" ${effServiceType == 'UTENSILS' ? 'selected' : ''}>Utensils</option>
-            <option value="BALCONY" ${effServiceType == 'BALCONY' ? 'selected' : ''}>Balcony cleaning</option>
-            <option value="BATHROOM" ${effServiceType == 'BATHROOM' ? 'selected' : ''}>Bathroom cleaning</option>
-            <option value="OTHER" ${effServiceType == 'OTHER' ? 'selected' : ''}>Other</option>
           </select>
         </div>
         <div class="mb-3">
@@ -126,6 +117,7 @@
           return;
         }
         var selected = select.value;
+        var preferredFromServer = '<c:out value="${effServiceType}"/>';
         window.Easy2WorkApi.services()
           .done(function (res) {
             if (!res || !res.ok || !Array.isArray(res.services)) {
@@ -143,7 +135,9 @@
               opt.textContent = s.title || s.code;
               select.appendChild(opt);
             });
-            if (selected) {
+            if (preferredFromServer && select.querySelector('option[value="' + preferredFromServer + '"]')) {
+              select.value = preferredFromServer;
+            } else if (selected) {
               select.value = selected;
             }
           });

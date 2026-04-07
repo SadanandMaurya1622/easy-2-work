@@ -130,11 +130,13 @@
         <aside class="sidebar">
           <div class="sidebar-title">Admin Menu</div>
           <nav class="nav flex-column">
+            <a class="nav-link" href="<%= c %>/bookings">Dashboard</a>
             <a class="nav-link active" href="<%= c %>/bookings">Bookings</a>
-            <a class="nav-link disabled" href="javascript:void(0)">User Management</a>
+            <a class="nav-link" href="<%= c %>/users">User Management</a>
             <a class="nav-link" href="<%= c %>/services">Service Add / Manage</a>
-            <a class="nav-link disabled" href="javascript:void(0)">Reports</a>
-            <a class="nav-link disabled" href="javascript:void(0)">Settings</a>
+            <a class="nav-link" href="<%= c %>/reviews">Reviews</a>
+            <a class="nav-link" href="<%= c %>/reports">Reports</a>
+            <a class="nav-link" href="<%= c %>/settings">Settings</a>
             <a class="nav-link" href="<%= c %>/logout">Logout</a>
           </nav>
         </aside>

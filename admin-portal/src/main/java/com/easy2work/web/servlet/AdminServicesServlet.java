@@ -28,7 +28,7 @@ public class AdminServicesServlet extends HttpServlet {
             String priceLabel = n(req.getParameter("basePrice"));
             String summary = n(req.getParameter("description"));
             String imageDataUrl = readImageDataUrl(req.getPart("image"));
-            if (!code.isBlank() && !title.isBlank()) {
+            if (!title.isBlank()) {
                 ManagedServiceCatalog.add(
                         code,
                         title,

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * Small file-backed catalog for admin-added services.
@@ -25,9 +26,10 @@ import java.util.UUID;
  */
 public final class ManagedServiceCatalog {
 
+    private static final Logger LOG = Logger.getLogger(ManagedServiceCatalog.class.getName());
     private static final Object LOCK = new Object();
     private static final Type LIST_TYPE = new TypeToken<List<ManagedService>>() { }.getType();
-    private static final Path ROOT = Paths.get(System.getProperty("user.home"), ".easy2work");
+    private static final Path ROOT = resolveRootDir();
     private static final Path STORE_FILE = ROOT.resolve("managed-services.json");
 
     private ManagedServiceCatalog() {
@@ -106,6 +108,7 @@ public final class ManagedServiceCatalog {
                 return rows == null ? new ArrayList<>() : new ArrayList<>(rows);
             }
         } catch (Exception e) {
+            LOG.warning("Failed to read managed services from " + STORE_FILE + ": " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -116,7 +119,8 @@ public final class ManagedServiceCatalog {
             try (Writer writer = Files.newBufferedWriter(STORE_FILE, StandardCharsets.UTF_8)) {
                 ApiJson.GSON.toJson(rows, LIST_TYPE, writer);
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            LOG.warning("Failed to write managed services to " + STORE_FILE + ": " + e.getMessage());
         }
     }
 
@@ -144,6 +148,22 @@ public final class ManagedServiceCatalog {
         return v == null ? "" : v.trim();
     }
 
+    private static Path resolveRootDir() {
+        String override = System.getProperty("easy2work.data.dir");
+        if (override != null && !override.isBlank()) {
+            return Paths.get(override.trim());
+        }
+        Path cwd = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
+        Path p = cwd;
+        while (p != null) {
+            if (Files.exists(p.resolve("admin-portal")) && Files.exists(p.resolve("user-portal")) && Files.exists(p.resolve("backend"))) {
+                return p.resolve(".easy2work");
+            }
+            p = p.getParent();
+        }
+        return cwd.resolve(".easy2work");
+    }
+
     public record ManagedService(
             String id,
             String code,
@@ -152,5 +172,28 @@ public final class ManagedServiceCatalog {
             String priceLabel,
             String imageDataUrl
     ) {
+        public String getId() {
+            return id;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getSummary() {
+            return summary;
+        }
+
+        public String getPriceLabel() {
+            return priceLabel;
+        }
+
+        public String getImageDataUrl() {
+            return imageDataUrl;
+        }
     }
 }
