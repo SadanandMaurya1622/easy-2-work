@@ -2,7 +2,6 @@ package com.easy2work.core.booking;
 
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 /** Shared validation for HTML form and JSON booking APIs. */
@@ -14,10 +13,6 @@ public final class BookingRules {
     public static final int MAX_TYPE = 64;
     public static final int MAX_DESC = 4000;
     public static final int MAX_ADDR = 2000;
-
-    public static final Set<String> SERVICE_TYPES = Set.of(
-            "ELECTRICAL", "AC", "COOLER", "LAUNDRY", "WINDOW", "UTENSILS", "BALCONY", "BATHROOM", "OTHER"
-    );
 
     private static final Pattern PHONE_DIGITS = Pattern.compile("^[0-9+\\s\\-]{10,20}$");
 
@@ -43,8 +38,8 @@ public final class BookingRules {
             return "Please choose a service type.";
         }
         String typeU = type.trim().toUpperCase(Locale.ROOT);
-        if (!SERVICE_TYPES.contains(typeU)) {
-            return "Invalid service type.";
+        if (typeU.length() > MAX_TYPE) {
+            return "Service type is too long.";
         }
         String desc = trim(form.get("description"));
         if (desc.isEmpty() || desc.length() > MAX_DESC) {

@@ -49,7 +49,18 @@ public final class ManagedServiceCatalog {
         return list().stream().filter(s -> normalized.equals(s.code())).findFirst();
     }
 
-    public static ManagedService add(String code, String title, String summary, String priceLabel, String imageDataUrl) {
+    public static ManagedService add(
+            String code,
+            String title,
+            String summary,
+            String priceLabel,
+            String imageDataUrl,
+            String priceDetail,
+            List<String> weProvide,
+            List<String> fromYou,
+            List<String> notIncluded,
+            List<String> visitSteps
+    ) {
         synchronized (LOCK) {
             List<ManagedService> all = readAllInternal();
             String normalizedCode = normalizeCode(code, title, all);
@@ -59,7 +70,12 @@ public final class ManagedServiceCatalog {
                     safe(title),
                     safe(summary),
                     safe(priceLabel).isBlank() ? "On request" : safe(priceLabel),
-                    safe(imageDataUrl)
+                    safe(imageDataUrl),
+                    safe(priceDetail),
+                    safeList(weProvide),
+                    safeList(fromYou),
+                    safeList(notIncluded),
+                    safeList(visitSteps)
             );
             all.removeIf(s -> s.code().equals(row.code()));
             all.add(row);
@@ -81,22 +97,25 @@ public final class ManagedServiceCatalog {
     }
 
     public static ServiceDetail toServiceDetail(ManagedService s) {
-        List<String> bullets = List.of(
+        List<String> defaultBullets = List.of(
                 "Inspection and scope confirmation before work starts",
                 "Basic service delivery by trained professional",
                 "Final handover after completion"
         );
+        List<String> defaultFromYou = List.of("Share exact requirement and preferred timing.");
+        List<String> defaultNotIncluded = List.of("Material costs and heavy rework are charged separately.");
+        List<String> defaultVisitSteps = List.of("Book the service", "Admin/pro confirms availability", "Service is delivered");
         return new ServiceDetail(
                 s.code(),
                 s.title(),
                 s.imageDataUrl().isBlank() ? "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&q=85" : s.imageDataUrl(),
                 s.summary(),
                 s.priceLabel(),
-                "Final price depends on job scope and location.",
-                bullets,
-                List.of("Share exact requirement and preferred timing."),
-                List.of("Material costs and heavy rework are charged separately."),
-                List.of("Book the service", "Admin/pro confirms availability", "Service is delivered")
+                s.priceDetail().isBlank() ? "Final price depends on job scope and location." : s.priceDetail(),
+                safeOrDefault(s.weProvide(), defaultBullets),
+                safeOrDefault(s.fromYou(), defaultFromYou),
+                safeOrDefault(s.notIncluded(), defaultNotIncluded),
+                safeOrDefault(s.visitSteps(), defaultVisitSteps)
         );
     }
 
@@ -148,6 +167,25 @@ public final class ManagedServiceCatalog {
         return v == null ? "" : v.trim();
     }
 
+    private static List<String> safeList(List<String> values) {
+        if (values == null) {
+            return List.of();
+        }
+        List<String> out = new ArrayList<>();
+        for (String value : values) {
+            String cleaned = safe(value);
+            if (!cleaned.isBlank()) {
+                out.add(cleaned);
+            }
+        }
+        return out;
+    }
+
+    private static List<String> safeOrDefault(List<String> values, List<String> fallback) {
+        List<String> cleaned = safeList(values);
+        return cleaned.isEmpty() ? fallback : cleaned;
+    }
+
     private static Path resolveRootDir() {
         String override = System.getProperty("easy2work.data.dir");
         if (override != null && !override.isBlank()) {
@@ -170,7 +208,12 @@ public final class ManagedServiceCatalog {
             String title,
             String summary,
             String priceLabel,
-            String imageDataUrl
+            String imageDataUrl,
+            String priceDetail,
+            List<String> weProvide,
+            List<String> fromYou,
+            List<String> notIncluded,
+            List<String> visitSteps
     ) {
         public String getId() {
             return id;
@@ -194,6 +237,26 @@ public final class ManagedServiceCatalog {
 
         public String getImageDataUrl() {
             return imageDataUrl;
+        }
+
+        public String getPriceDetail() {
+            return priceDetail;
+        }
+
+        public List<String> getWeProvide() {
+            return weProvide;
+        }
+
+        public List<String> getFromYou() {
+            return fromYou;
+        }
+
+        public List<String> getNotIncluded() {
+            return notIncluded;
+        }
+
+        public List<String> getVisitSteps() {
+            return visitSteps;
         }
     }
 }

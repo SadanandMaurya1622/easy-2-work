@@ -2,6 +2,7 @@ package com.easy2work.web.servlet;
 
 import com.easy2work.backend.config.DatabaseConfig;
 import com.easy2work.backend.repository.ReviewRepository;
+import com.easy2work.backend.review.ManagedReviewCatalog;
 import com.easy2work.core.model.Review;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -24,10 +25,12 @@ public class AdminReviewsServlet extends HttpServlet {
             } catch (Exception e) {
                 req.setAttribute("reviewsError", e.getMessage());
             }
+        } else {
+            reviews = ManagedReviewCatalog.findAllOrderByCreatedDesc(500);
         }
         req.setAttribute("adminReviews", reviews);
         req.setAttribute("adminReviewCount", reviews.size());
-        req.setAttribute("dbConfigured", ds != null);
+        req.setAttribute("dbConfigured", true);
         req.getRequestDispatcher("/WEB-INF/jsp/admin-reviews.jsp").forward(req, resp);
     }
 }

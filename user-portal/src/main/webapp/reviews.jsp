@@ -155,6 +155,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     let selectedRating = 0;
+    const apiBase = document.body.dataset.ctx || '';
 
     // Star rating interaction
     document.querySelectorAll('.star').forEach(star => {
@@ -201,7 +202,7 @@
       };
 
       try {
-        const response = await fetch('/api/reviews', {
+        const response = await fetch(apiBase + '/api/reviews', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -224,7 +225,7 @@
 
     async function loadReviews() {
       try {
-        const response = await fetch('/api/reviews?limit=50');
+        const response = await fetch(apiBase + '/api/reviews?limit=50');
         const data = await response.json();
 
         if (data.ok) {

@@ -41,6 +41,10 @@
   </filter-mapping>
   <filter-mapping>
     <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/dashboard</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
     <url-pattern>/update-status</url-pattern>
   </filter-mapping>
   <filter-mapping>
@@ -96,6 +100,10 @@
   <servlet-mapping>
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/bookings</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/dashboard</url-pattern>
   </servlet-mapping>
 
   <!-- Admin Update Status Servlet -->

@@ -60,7 +60,6 @@
   <div class="container-fluid">
     <span class="navbar-brand mb-0 h1">Easy 2 Work Admin Portal</span>
     <div>
-      <a class="btn btn-sm btn-outline-light me-2" href="<%= c %>/bookings">Bookings</a>
       <a class="btn btn-sm btn-light" href="<%= c %>/logout">Logout</a>
     </div>
   </div>
@@ -72,12 +71,10 @@
       <aside class="sidebar">
         <div class="sidebar-title">Admin Menu</div>
         <nav class="nav flex-column">
-          <a class="nav-link" href="<%= c %>/bookings">Dashboard</a>
-          <a class="nav-link" href="<%= c %>/bookings">Bookings</a>
+          <a class="nav-link" href="<%= c %>/dashboard">Dashboard</a>
           <a class="nav-link" href="<%= c %>/users">User Management</a>
           <a class="nav-link active" href="<%= c %>/services">Service Add / Manage</a>
           <a class="nav-link" href="<%= c %>/reviews">Reviews</a>
-          <a class="nav-link" href="<%= c %>/reports">Reports</a>
           <a class="nav-link" href="<%= c %>/settings">Settings</a>
           <a class="nav-link" href="<%= c %>/logout">Logout</a>
         </nav>
@@ -106,6 +103,26 @@
                 <div class="mb-3">
                   <label class="form-label">Description</label>
                   <textarea class="form-control form-control-sm" name="description" rows="3" placeholder="Short service description"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Price Detail <span class="text-muted small">(optional)</span></label>
+                  <textarea class="form-control form-control-sm" name="priceDetail" rows="2" placeholder="Final price depends on job scope and location."></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">What we'll do for you <span class="text-muted small">(optional, one line per point)</span></label>
+                  <textarea class="form-control form-control-sm" name="weProvide" rows="3" placeholder="Inspection and scope confirmation&#10;Basic service delivery"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">What we need from user side <span class="text-muted small">(optional, one line per point)</span></label>
+                  <textarea class="form-control form-control-sm" name="fromYou" rows="3" placeholder="Share exact requirement and preferred timing"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Usually not included <span class="text-muted small">(optional, one line per point)</span></label>
+                  <textarea class="form-control form-control-sm" name="notIncluded" rows="3" placeholder="Material costs and heavy rework are charged separately"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Visit Steps <span class="text-muted small">(optional, one line per step)</span></label>
+                  <textarea class="form-control form-control-sm" name="visitSteps" rows="3" placeholder="Book the service&#10;Admin/pro confirms availability&#10;Service is delivered"></textarea>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Image</label>

@@ -2,6 +2,7 @@ package com.easy2work.backend.api;
 
 import com.easy2work.backend.config.DatabaseConfig;
 import com.easy2work.backend.repository.ReviewRepository;
+import com.easy2work.backend.review.ManagedReviewCatalog;
 import com.easy2work.core.model.Review;
 import com.easy2work.core.review.MemoryReviewStore;
 import jakarta.servlet.ServletContext;
@@ -58,18 +59,12 @@ public class ReviewsApiServlet extends HttpServlet {
                     reviews = repo.findAllOrderByCreatedDesc(limit);
                 }
             } else {
-                // Use in-memory store
-                MemoryReviewStore mem = (MemoryReviewStore) req.getServletContext()
-                    .getAttribute(MemoryReviewStore.SERVLET_CONTEXT_KEY);
-                if (mem == null) {
-                    reviews = List.of();
+                // Use shared file-backed store when DB is unavailable.
+                if (serviceType != null && !serviceType.isBlank()) {
+                    reviews = ManagedReviewCatalog.findByServiceType(serviceType, limit);
+                    avgRating = ManagedReviewCatalog.getAverageRating(serviceType);
                 } else {
-                    if (serviceType != null && !serviceType.isBlank()) {
-                        reviews = mem.findByServiceType(serviceType, limit);
-                        avgRating = mem.getAverageRating(serviceType);
-                    } else {
-                        reviews = mem.findAllOrderByCreatedDesc(limit);
-                    }
+                    reviews = ManagedReviewCatalog.findAllOrderByCreatedDesc(limit);
                 }
             }
 
@@ -139,15 +134,7 @@ public class ReviewsApiServlet extends HttpServlet {
                 ReviewRepository repo = new ReviewRepository(ds);
                 reviewId = repo.insert(bookingId, customerName, serviceType, rating, comment);
             } else {
-                // Use in-memory store
-                MemoryReviewStore mem = (MemoryReviewStore) req.getServletContext()
-                    .getAttribute(MemoryReviewStore.SERVLET_CONTEXT_KEY);
-                if (mem == null) {
-                    ApiJson.writeError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                        "Review store not initialized");
-                    return;
-                }
-                reviewId = mem.insert(bookingId, customerName, serviceType, rating, comment);
+                reviewId = ManagedReviewCatalog.insert(bookingId, customerName, serviceType, rating, comment);
             }
 
             Map<String, Object> responseBody = new LinkedHashMap<>();

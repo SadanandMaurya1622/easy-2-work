@@ -14,12 +14,10 @@
   <div class="row">
     <div class="col-lg-2">
       <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="<%= c %>/bookings">Dashboard</a>
-        <a class="list-group-item list-group-item-action" href="<%= c %>/bookings">Bookings</a>
+        <a class="list-group-item list-group-item-action" href="<%= c %>/dashboard">Dashboard</a>
         <a class="list-group-item list-group-item-action active" href="<%= c %>/users">User Management</a>
         <a class="list-group-item list-group-item-action" href="<%= c %>/services">Service Add / Manage</a>
         <a class="list-group-item list-group-item-action" href="<%= c %>/reviews">Reviews</a>
-        <a class="list-group-item list-group-item-action" href="<%= c %>/reports">Reports</a>
         <a class="list-group-item list-group-item-action" href="<%= c %>/settings">Settings</a>
       </div>
     </div>

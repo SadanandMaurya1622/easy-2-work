@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class AdminServicesServlet extends HttpServlet {
@@ -28,13 +30,23 @@ public class AdminServicesServlet extends HttpServlet {
             String priceLabel = n(req.getParameter("basePrice"));
             String summary = n(req.getParameter("description"));
             String imageDataUrl = readImageDataUrl(req.getPart("image"));
+            String priceDetail = n(req.getParameter("priceDetail"));
+            List<String> weProvide = lines(req.getParameter("weProvide"));
+            List<String> fromYou = lines(req.getParameter("fromYou"));
+            List<String> notIncluded = lines(req.getParameter("notIncluded"));
+            List<String> visitSteps = lines(req.getParameter("visitSteps"));
             if (!title.isBlank()) {
                 ManagedServiceCatalog.add(
                         code,
                         title,
                         summary,
                         priceLabel.isBlank() ? "On request" : priceLabel,
-                        imageDataUrl
+                        imageDataUrl,
+                        priceDetail,
+                        weProvide,
+                        fromYou,
+                        notIncluded,
+                        visitSteps
                 );
             }
         } else if ("delete".equals(action)) {
@@ -59,5 +71,15 @@ public class AdminServicesServlet extends HttpServlet {
 
     private static String n(String v) {
         return v == null ? "" : v.trim();
+    }
+
+    private static List<String> lines(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return List.of();
+        }
+        return Arrays.stream(raw.split("\\R"))
+                .map(AdminServicesServlet::n)
+                .filter(s -> !s.isBlank())
+                .toList();
     }
 }

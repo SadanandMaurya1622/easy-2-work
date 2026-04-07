@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,11 +34,27 @@ public class AdminServicesApiServlet extends HttpServlet {
             String summary = n(req.getParameter("summary"));
             String priceLabel = n(req.getParameter("priceLabel"));
             String imageDataUrl = readImageDataUrl(req.getPart("image"));
+            String priceDetail = n(req.getParameter("priceDetail"));
+            List<String> weProvide = lines(req.getParameter("weProvide"));
+            List<String> fromYou = lines(req.getParameter("fromYou"));
+            List<String> notIncluded = lines(req.getParameter("notIncluded"));
+            List<String> visitSteps = lines(req.getParameter("visitSteps"));
             if (title.isBlank()) {
                 ApiJson.writeError(resp, HttpServletResponse.SC_BAD_REQUEST, "title is required");
                 return;
             }
-            var row = ManagedServiceCatalog.add(code, title, summary, priceLabel, imageDataUrl);
+            var row = ManagedServiceCatalog.add(
+                    code,
+                    title,
+                    summary,
+                    priceLabel,
+                    imageDataUrl,
+                    priceDetail,
+                    weProvide,
+                    fromYou,
+                    notIncluded,
+                    visitSteps
+            );
             ApiJson.write(resp, HttpServletResponse.SC_CREATED, Map.of("ok", true, "service", row));
         } catch (Exception e) {
             ApiJson.writeError(resp, HttpServletResponse.SC_BAD_REQUEST, "Unable to add service");
@@ -69,5 +87,15 @@ public class AdminServicesApiServlet extends HttpServlet {
 
     private static String n(String v) {
         return v == null ? "" : v.trim();
+    }
+
+    private static List<String> lines(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return List.of();
+        }
+        return Arrays.stream(raw.split("\\R"))
+                .map(AdminServicesApiServlet::n)
+                .filter(s -> !s.isBlank())
+                .toList();
     }
 }
