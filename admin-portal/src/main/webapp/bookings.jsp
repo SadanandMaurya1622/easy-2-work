@@ -65,6 +65,46 @@
       padding: 1rem;
       position: sticky;
       top: 1rem;
+      min-height: calc(100vh - 88px);
+    }
+    .dashboard-content {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .booking-list-panel {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .booking-list-panel .table-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .booking-list-panel .table-responsive {
+      height: 270px;
+      min-height: 270px;
+      max-height: 270px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-gutter: stable;
+    }
+    .booking-list-panel .table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--bs-light);
+    }
+    @media (max-width: 991.98px) {
+      .booking-list-panel .table-responsive {
+        height: 50vh;
+        min-height: 50vh;
+        max-height: 50vh;
+        overflow-x: auto;
+      }
     }
     .sidebar-title {
       color: #f8fafc;
@@ -139,7 +179,7 @@
           </nav>
         </aside>
       </div>
-      <div class="col-12 col-lg-9 col-xl-10">
+      <div class="col-12 col-lg-9 col-xl-10 dashboard-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h1 class="h3 mb-0">Bookings Management</h1>
           <div>
@@ -257,6 +297,7 @@
       </div>
         </div>
 
+        <div class="booking-list-panel">
         <c:choose>
       <c:when test="${empty adminBookings}">
         <div class="alert alert-secondary">
@@ -325,6 +366,7 @@
         </div>
       </c:otherwise>
         </c:choose>
+        </div>
       </div>
     </div>
   </div>
