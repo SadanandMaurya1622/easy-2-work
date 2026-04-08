@@ -32,6 +32,12 @@
     .review-comment {
       color: #333;
       line-height: 1.6;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      word-break: break-word;
     }
     .submit-review-btn {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

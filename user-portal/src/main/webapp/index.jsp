@@ -11,7 +11,7 @@
   <link rel="icon" href="<%= c %>/images/logo.png" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" crossorigin="">
-  <link href="<%= c %>/css/style.css" rel="stylesheet">
+  <link href="<%= c %>/css/style.css?v=20260408-2" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>">
 <%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
@@ -167,17 +167,29 @@
 
   <section class="live-metrics-section py-4">
     <div class="container">
+      <div class="live-metrics-head text-center mb-3">
+        <h2 class="live-metrics-title mb-1">Live Platform Highlights</h2>
+        <p class="live-metrics-subtitle mb-0">Real-time trust signals from Easy 2 Work operations.</p>
+      </div>
       <div class="row g-3">
         <div class="col-12 col-md-6">
           <div class="live-metric-card">
+            <div class="live-metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.33 0-8 2.17-8 5v1h16v-1c0-2.83-3.67-5-8-5z"/></svg>
+            </div>
             <p class="live-metric-label mb-1">Users logged in</p>
-            <h3 class="live-metric-value mb-0"><span id="liveTotalUsers">0</span>+</h3>
+            <h3 class="live-metric-value mb-1"><span id="liveTotalUsers">0</span>+</h3>
+            <p class="live-metric-note mb-0">Active customers who signed in</p>
           </div>
         </div>
         <div class="col-12 col-md-6">
           <div class="live-metric-card">
+            <div class="live-metric-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="m9.55 17.95-4.5-4.5 1.41-1.41 3.09 3.08 7.99-7.99 1.41 1.41z"/></svg>
+            </div>
             <p class="live-metric-label mb-1">Work completed</p>
-            <h3 class="live-metric-value mb-0"><span id="liveCompletedWorks">0</span>+</h3>
+            <h3 class="live-metric-value mb-1"><span id="liveCompletedWorks">0</span>+</h3>
+            <p class="live-metric-note mb-0">Jobs marked completed by team</p>
           </div>
         </div>
       </div>
@@ -281,8 +293,8 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="<%= c %>/js/easy2work-api.js"></script>
-  <script src="<%= c %>/js/site.js"></script>
+  <script src="<%= c %>/js/easy2work-api.js?v=20260408-2"></script>
+  <script src="<%= c %>/js/site.js?v=20260408-2"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var loginModalEl = document.getElementById('loginRequiredModal');
@@ -345,6 +357,23 @@
     }
 
     // Load testimonials when page loads
+    function loadLiveMetricsFallback() {
+      fetch('<%= c %>/api/stats')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data) return;
+          var usersEl = document.getElementById('liveTotalUsers');
+          var worksEl = document.getElementById('liveCompletedWorks');
+          if (usersEl && typeof data.totalUsers === 'number') {
+            usersEl.textContent = data.totalUsers;
+          }
+          if (worksEl && typeof data.completedWorks === 'number') {
+            worksEl.textContent = data.completedWorks;
+          }
+        })
+        .catch(function () {});
+    }
+
     function loadServiceCards() {
       fetch('<%= c %>/api/services')
         .then(function (r) { return r.json(); })
@@ -376,6 +405,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+      loadLiveMetricsFallback();
       loadTestimonials();
       loadServiceCards();
     });
