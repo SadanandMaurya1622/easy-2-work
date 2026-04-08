@@ -1,6 +1,7 @@
 package com.easy2work.web.servlet;
 
 import com.easy2work.backend.config.DatabaseConfig;
+import com.easy2work.backend.booking.ManagedBookingStore;
 import com.easy2work.backend.repository.BookingRepository;
 import com.easy2work.core.booking.BookingRules;
 import com.easy2work.core.booking.MemoryBookingStore;
@@ -60,8 +61,8 @@ public class BookingServlet extends HttpServlet {
                 var repo = new BookingRepository(ds);
                 saved = repo.insertAndLoad(name, phone, email, type, desc, addr, preferred);
             } else {
-                var mem = (MemoryBookingStore) request.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
-                saved = mem.save(name, phone, email, type, desc, addr, preferred);
+                // Shared file-backed fallback so admin portal can see non-DB bookings too.
+                saved = ManagedBookingStore.save(name, phone, email, type, desc, addr, preferred);
             }
             session.removeAttribute("bookingForm");
             session.removeAttribute("bookingError");

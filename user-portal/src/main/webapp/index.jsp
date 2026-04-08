@@ -16,6 +16,36 @@
 <body data-ctx="<%= c %>">
 <%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
+  <c:if test="${empty sessionScope.userId}">
+    <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginRequiredModalLabel">Login to Continue</h5>
+          </div>
+          <div class="modal-body">
+            <p class="mb-3">Please login to access booking and personalized features.</p>
+            <form method="post" action="<%= c %>/login">
+              <input type="hidden" name="redirect" value="<%= c %>/">
+              <div class="mb-3">
+                <label class="form-label" for="modalLoginEmail">Email</label>
+                <input id="modalLoginEmail" type="email" name="email" class="form-control" required autocomplete="email">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="modalLoginPassword">Password</label>
+                <input id="modalLoginPassword" type="password" name="password" class="form-control" required autocomplete="current-password">
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <span class="small text-muted">New user? <a href="<%= c %>/register">Create account</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </c:if>
+
   <!-- Booking Success Modal -->
   <c:if test="${param.booked == '1'}">
     <div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -135,27 +165,19 @@
     </div>
   </section>
 
-  <section id="why-us" class="stats-section">
+  <section class="live-metrics-section py-4">
     <div class="container">
-      <h2 class="section-title text-center">On-demand professional home service</h2>
-      <p class="section-subtitle text-center">No more planning around your help. Our team of verified professionals are always on time.</p>
-      <div class="row g-4 justify-content-center text-center stats-row">
-        <div class="col-6 col-md-4">
-          <div class="stat-item animate-fade-in-up animate-delay-1">
-            <span class="stat-number" id="stat-homes" data-count="1200">0</span><span class="stat-plus">+</span>
-            <p class="stat-label">Homes serviced</p>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="live-metric-card">
+            <p class="live-metric-label mb-1">Users logged in</p>
+            <h3 class="live-metric-value mb-0"><span id="liveTotalUsers">0</span>+</h3>
           </div>
         </div>
-        <div class="col-6 col-md-4">
-          <div class="stat-item animate-fade-in-up animate-delay-2">
-            <span class="stat-number" id="stat-hours" data-count="850">0</span><span class="stat-plus">+</span>
-            <p class="stat-label">Hours saved</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-4">
-          <div class="stat-item animate-fade-in-up animate-delay-3">
-            <span class="stat-number" id="stat-pros" data-count="50">0</span><span class="stat-plus">+</span>
-            <p class="stat-label">Verified professionals</p>
+        <div class="col-12 col-md-6">
+          <div class="live-metric-card">
+            <p class="live-metric-label mb-1">Work completed</p>
+            <h3 class="live-metric-value mb-0"><span id="liveCompletedWorks">0</span>+</h3>
           </div>
         </div>
       </div>
@@ -262,6 +284,14 @@
   <script src="<%= c %>/js/easy2work-api.js"></script>
   <script src="<%= c %>/js/site.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var loginModalEl = document.getElementById('loginRequiredModal');
+      if (loginModalEl && window.bootstrap) {
+        var loginModal = new bootstrap.Modal(loginModalEl);
+        loginModal.show();
+      }
+    });
+
     // Load reviews from API for testimonials section
     async function loadTestimonials() {
       try {
@@ -327,6 +357,7 @@
           data.services.forEach(function (s, index) {
             var title = escapeHtml(s.title || '');
             var summary = escapeHtml(s.summary || '');
+            var priceLabel = escapeHtml(s.priceLabel || '');
             var imageUrl = escapeHtml(s.imageUrl || '');
             var code = encodeURIComponent(s.code || '');
             var delay = (index % 8) + 1;
@@ -334,6 +365,7 @@
               '<div class="service-card-img" style="background-image: url(\'' + imageUrl + '\')"></div>' +
               '<div class="service-card-body">' +
               '<h5>' + title + '</h5>' +
+              '<p class="mb-1 fw-semibold text-primary small">' + priceLabel + '</p>' +
               '<p class="text-muted mb-0 small">' + summary + '</p>' +
               '</div>' +
               '</a>';

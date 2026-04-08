@@ -1,6 +1,7 @@
 package com.easy2work.web.servlet;
 
 import com.easy2work.backend.api.ApiJson;
+import com.easy2work.backend.booking.ManagedBookingStore;
 import com.easy2work.backend.config.DatabaseConfig;
 import com.easy2work.backend.repository.BookingRepository;
 import com.easy2work.core.booking.MemoryBookingStore;
@@ -74,6 +75,9 @@ public class AdminBookingStatusApiServlet extends HttpServlet {
         DataSource ds = (DataSource) req.getServletContext().getAttribute(DatabaseConfig.CTX_DATASOURCE);
         if (ds != null) {
             return new BookingRepository(ds).updateStatus(bookingId, newStatus);
+        }
+        if (ManagedBookingStore.updateStatus(bookingId, newStatus)) {
+            return true;
         }
         MemoryBookingStore mem = (MemoryBookingStore) req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
         return mem != null && mem.updateStatus(bookingId, newStatus);

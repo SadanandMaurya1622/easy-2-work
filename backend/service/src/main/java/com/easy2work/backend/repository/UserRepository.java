@@ -1,5 +1,6 @@
 package com.easy2work.backend.repository;
 
+import com.easy2work.backend.user.ManagedUserStore;
 import com.easy2work.core.model.User;
 
 import javax.sql.DataSource;
@@ -26,8 +27,7 @@ public class UserRepository {
      */
     public Optional<User> findByEmail(String email) {
         if (dataSource == null) {
-            LOG.warning("Database not configured - cannot find user");
-            return Optional.empty();
+            return ManagedUserStore.findByEmail(email);
         }
 
         String sql = "SELECT id, email, password_hash, first_name, last_name, phone, role, created_at, last_login_at " +
@@ -53,7 +53,7 @@ public class UserRepository {
      */
     public Optional<User> findById(Long id) {
         if (dataSource == null) {
-            return Optional.empty();
+            return ManagedUserStore.findById(id);
         }
 
         String sql = "SELECT id, email, password_hash, first_name, last_name, phone, role, created_at, last_login_at " +
@@ -79,8 +79,7 @@ public class UserRepository {
      */
     public Optional<User> create(User user) {
         if (dataSource == null) {
-            LOG.warning("Database not configured - cannot create user");
-            return Optional.empty();
+            return ManagedUserStore.create(user);
         }
 
         String sql = "INSERT INTO users (email, password_hash, first_name, last_name, phone, role, created_at) " +
@@ -117,6 +116,7 @@ public class UserRepository {
      */
     public void updateLastLogin(Long userId) {
         if (dataSource == null) {
+            ManagedUserStore.updateLastLogin(userId);
             return;
         }
 
@@ -142,7 +142,7 @@ public class UserRepository {
 
     public List<User> findAllOrderByCreatedDesc(int limit) {
         if (dataSource == null) {
-            return List.of();
+            return ManagedUserStore.listOrderByCreatedDesc(limit);
         }
         int cap = Math.min(Math.max(limit, 1), 1000);
         String sql = "SELECT id, email, password_hash, first_name, last_name, phone, role, created_at, last_login_at " +

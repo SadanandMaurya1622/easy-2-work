@@ -31,8 +31,15 @@ public class AdminServicesApiServlet extends HttpServlet {
         try {
             String code = n(req.getParameter("code"));
             String title = n(req.getParameter("title"));
-            String summary = n(req.getParameter("summary"));
-            String priceLabel = n(req.getParameter("priceLabel"));
+            // Keep backward compatibility with old field names while supporting current form names.
+            String summary = firstNonBlank(
+                    req.getParameter("summary"),
+                    req.getParameter("description")
+            );
+            String priceLabel = firstNonBlank(
+                    req.getParameter("priceLabel"),
+                    req.getParameter("basePrice")
+            );
             String imageDataUrl = readImageDataUrl(req.getPart("image"));
             String priceDetail = n(req.getParameter("priceDetail"));
             List<String> weProvide = lines(req.getParameter("weProvide"));
@@ -87,6 +94,16 @@ public class AdminServicesApiServlet extends HttpServlet {
 
     private static String n(String v) {
         return v == null ? "" : v.trim();
+    }
+
+    private static String firstNonBlank(String... values) {
+        for (String value : values) {
+            String cleaned = n(value);
+            if (!cleaned.isBlank()) {
+                return cleaned;
+            }
+        }
+        return "";
     }
 
     private static List<String> lines(String raw) {

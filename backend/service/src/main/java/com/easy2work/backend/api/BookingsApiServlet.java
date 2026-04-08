@@ -1,6 +1,7 @@
 package com.easy2work.backend.api;
 
 import com.easy2work.catalog.ServiceCatalog;
+import com.easy2work.backend.booking.ManagedBookingStore;
 import com.easy2work.backend.config.DatabaseConfig;
 import com.easy2work.backend.repository.BookingRepository;
 import com.easy2work.core.booking.MemoryBookingStore;
@@ -94,6 +95,10 @@ public class BookingsApiServlet extends HttpServlet {
         DataSource ds = (DataSource) req.getServletContext().getAttribute(DatabaseConfig.CTX_DATASOURCE);
         if (ds != null) {
             return new BookingRepository(ds).findByPhoneKey(key10);
+        }
+        List<Booking> shared = ManagedBookingStore.findByPhoneKey(key10);
+        if (!shared.isEmpty()) {
+            return shared;
         }
         MemoryBookingStore mem = (MemoryBookingStore) req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
         if (mem == null) {

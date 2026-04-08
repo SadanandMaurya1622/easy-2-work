@@ -8,20 +8,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Settings</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --admin-primary: #5a67d8; --admin-accent: #7c3aed; }
+    body { background: #f3f5fb; }
+    .admin-shell { min-height: 100vh; }
+    .sidebar {
+      background: #111827; color: #cbd5e1; border-radius: 14px; padding: 1rem;
+      position: sticky; top: 1rem; min-height: calc(100vh - 2rem);
+      box-shadow: 0 16px 28px rgba(2, 6, 23, 0.2); overflow: hidden;
+    }
+    .sidebar-title { color: #f8fafc; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem; }
+    .sidebar .nav-link { color: #cbd5e1; border-radius: 10px; padding: 0.55rem 0.7rem; margin-bottom: 0.2rem; font-size: 0.92rem; min-height: 52px; display: flex; align-items: center; }
+    .sidebar .nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar .nav-link.active { background: linear-gradient(135deg, var(--admin-primary), var(--admin-accent)); color: #fff; font-weight: 600; }
+    .content-panel { height: calc(100vh - 2rem); overflow-y: auto; padding-right: 0.35rem; }
+  </style>
 </head>
-<body class="bg-light">
-<div class="container-fluid py-4">
-  <div class="row">
+<body>
+<div class="container-fluid py-3 admin-shell">
+  <div class="row g-3">
     <div class="col-lg-2">
-      <div class="list-group">
-        <a class="list-group-item list-group-item-action" href="<%= c %>/dashboard">Dashboard</a>
-        <a class="list-group-item list-group-item-action" href="<%= c %>/users">User Management</a>
-        <a class="list-group-item list-group-item-action" href="<%= c %>/services">Service Add / Manage</a>
-        <a class="list-group-item list-group-item-action" href="<%= c %>/reviews">Reviews</a>
-        <a class="list-group-item list-group-item-action active" href="<%= c %>/settings">Settings</a>
-      </div>
+      <aside class="sidebar">
+        <div class="sidebar-title">Admin Menu</div>
+        <nav class="nav flex-column">
+          <a class="nav-link" href="<%= c %>/dashboard">Dashboard</a>
+          <a class="nav-link" href="<%= c %>/users">User Management</a>
+          <a class="nav-link" href="<%= c %>/services">Service Add / Manage</a>
+          <a class="nav-link" href="<%= c %>/reviews">Reviews</a>
+          <a class="nav-link active" href="<%= c %>/settings">Settings</a>
+          <a class="nav-link" href="<%= c %>/logout">Logout</a>
+        </nav>
+      </aside>
     </div>
-    <div class="col-lg-10">
+    <div class="col-lg-10 content-panel">
       <h3>Settings</h3>
       <div class="card">
         <div class="card-body">

@@ -42,8 +42,10 @@
 <%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
 
   <main class="book-page container">
-    <h1>Book a service</h1>
-    <p class="lead">Tell us what you need and where — we’ll confirm on call/WhatsApp.</p>
+    <div class="book-header">
+      <h1>Book a Service</h1>
+      <p class="lead">Tell us your requirement in a few steps and we will confirm quickly on call/WhatsApp.</p>
+    </div>
 
     <c:if test="${param.ok == '1'}">
       <div class="alert alert-success" role="alert">
@@ -56,46 +58,63 @@
       <div class="alert alert-danger" role="alert"><c:out value="${bookingError}"/></div>
     </c:if>
 
-    <div class="card p-4 p-md-5">
+    <div class="card p-4 p-md-5 book-card-premium">
       <form id="bookingForm" method="post" action="<%= c %>/booking" novalidate>
-        <div class="mb-3">
-          <label class="form-label" for="customerName">Full name <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="customerName" name="customerName" required maxlength="120"
-                 value="<c:out value='${bookingForm.customerName}'/>" autocomplete="name">
+        <div class="book-form-section">
+          <div class="book-form-section-title">Contact Details</div>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label" for="customerName">Full name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="customerName" name="customerName" required maxlength="120"
+                     value="<c:out value='${bookingForm.customerName}'/>" autocomplete="name">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="phone">Phone <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="phone" name="phone" required maxlength="20"
+                     placeholder="e.g. 9876543210"
+                     value="<c:out value='${bookingForm.phone}'/>" autocomplete="tel">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="email">Email <span class="text-muted small">(optional)</span></label>
+              <input type="email" class="form-control" id="email" name="email" maxlength="255"
+                     value="<c:out value='${bookingForm.email}'/>" autocomplete="email">
+            </div>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="phone">Phone <span class="text-danger">*</span></label>
-          <input type="tel" class="form-control" id="phone" name="phone" required maxlength="20"
-                 placeholder="e.g. 9876543210"
-                 value="<c:out value='${bookingForm.phone}'/>" autocomplete="tel">
+
+        <div class="book-form-section">
+          <div class="book-form-section-title">Service Requirement</div>
+          <div class="mb-3">
+            <label class="form-label" for="serviceType">Service <span class="text-danger">*</span></label>
+            <select class="form-select" id="serviceType" name="serviceType" required>
+              <option value="" disabled ${empty effServiceType ? 'selected' : ''}>Choose…</option>
+            </select>
+          </div>
+          <div class="mb-0">
+            <label class="form-label" for="description">What do you need? <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="description" name="description" rows="4" required maxlength="4000"
+                      placeholder="Brief details (problem, size of home, preferred time window…)"><c:out value="${bookingForm.description}"/></textarea>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="email">Email <span class="text-muted small">(optional)</span></label>
-          <input type="email" class="form-control" id="email" name="email" maxlength="255"
-                 value="<c:out value='${bookingForm.email}'/>" autocomplete="email">
+
+        <div class="book-form-section">
+          <div class="book-form-section-title">Visit Information</div>
+          <div class="mb-3">
+            <label class="form-label" for="address">Service address <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="address" name="address" rows="3" required maxlength="2000"
+                      placeholder="Full address with landmark, pincode"><c:out value="${bookingForm.address}"/></textarea>
+          </div>
+          <div class="mb-0">
+            <label class="form-label" for="preferredAt">Preferred date &amp; time <span class="text-muted small">(optional)</span></label>
+            <input type="datetime-local" class="form-control" id="preferredAt" name="preferredAt"
+                   value="<c:out value='${bookingForm.preferredAt}'/>">
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="serviceType">Service <span class="text-danger">*</span></label>
-          <select class="form-select" id="serviceType" name="serviceType" required>
-            <option value="" disabled ${empty effServiceType ? 'selected' : ''}>Choose…</option>
-          </select>
+
+        <div class="book-submit-wrap">
+          <button type="submit" class="btn btn-success btn-lg w-100">Submit booking</button>
+          <p class="book-submit-note">You will get a booking reference number after successful submission.</p>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="description">What do you need? <span class="text-danger">*</span></label>
-          <textarea class="form-control" id="description" name="description" rows="4" required maxlength="4000"
-                    placeholder="Brief details (problem, size of home, preferred time window…)"><c:out value="${bookingForm.description}"/></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="address">Service address <span class="text-danger">*</span></label>
-          <textarea class="form-control" id="address" name="address" rows="3" required maxlength="2000"
-                    placeholder="Full address with landmark, pincode"><c:out value="${bookingForm.address}"/></textarea>
-        </div>
-        <div class="mb-4">
-          <label class="form-label" for="preferredAt">Preferred date &amp; time <span class="text-muted small">(optional)</span></label>
-          <input type="datetime-local" class="form-control" id="preferredAt" name="preferredAt"
-                 value="<c:out value='${bookingForm.preferredAt}'/>">
-        </div>
-        <button type="submit" class="btn btn-success btn-lg w-100">Submit booking</button>
       </form>
     </div>
   </main>
@@ -105,7 +124,6 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<%= c %>/js/easy2work-api.js"></script>
-  <script src="<%= c %>/js/book-page.js"></script>
   <script>
     (function ($) {
       function loadServiceOptions() {

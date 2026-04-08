@@ -136,6 +136,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>AdminUsersApiServlet</servlet-name>
+    <servlet-class>com.easy2work.web.servlet.AdminUsersApiServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminUsersApiServlet</servlet-name>
+    <url-pattern>/api/admin/users</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>AdminReviewsServlet</servlet-name>
     <servlet-class>com.easy2work.web.servlet.AdminReviewsServlet</servlet-class>
   </servlet>

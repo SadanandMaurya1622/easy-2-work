@@ -1,9 +1,9 @@
 package com.easy2work.backend.api;
 
+import com.easy2work.backend.booking.ManagedBookingStore;
 import com.easy2work.backend.config.DatabaseConfig;
 import com.easy2work.backend.repository.BookingRepository;
 import com.easy2work.core.booking.BookingRules;
-import com.easy2work.core.booking.MemoryBookingStore;
 import com.easy2work.core.model.Booking;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -68,16 +68,7 @@ public class BookingApiServlet extends HttpServlet {
             if (ds != null) {
                 saved = new BookingRepository(ds).insertAndLoad(name, phone, email, type, desc, addr, preferred);
             } else {
-                MemoryBookingStore mem = (MemoryBookingStore) req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
-                if (mem == null) {
-                    synchronized (req.getServletContext()) {
-                        if (req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY) == null) {
-                            req.getServletContext().setAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY, new MemoryBookingStore());
-                        }
-                        mem = (MemoryBookingStore) req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
-                    }
-                }
-                saved = mem.save(name, phone, email, type, desc, addr, preferred);
+                saved = ManagedBookingStore.save(name, phone, email, type, desc, addr, preferred);
             }
             Map<String, Object> body = new LinkedHashMap<>();
             body.put("ok", true);

@@ -26,63 +26,25 @@
     $marquee.append($clone);
   }
 
-  function animateCount($el, target) {
-    var step = Math.max(1, Math.floor(target / 40));
-    var current = 0;
-    function tick() {
-      current = Math.min(current + step, target);
-      $el.text(current);
-      if (current < target) requestAnimationFrame(tick);
-    }
-    tick();
-  }
-
-  function runStatAnimations() {
-    $('.stat-number').each(function () {
-      var $el = $(this);
-      if ($el.data('animated')) return;
-      var target = parseInt($el.attr('data-count'), 10);
-      if (isNaN(target)) return;
-      $el.data('animated', true);
-      animateCount($el, target);
-    });
-  }
-
-  function initStatObserver() {
-    var section = document.getElementById('why-us');
-    if (!section) {
-      runStatAnimations();
-      return;
-    }
-    var obs = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        runStatAnimations();
-        obs.disconnect();
-      }
-    }, { threshold: 0.3 });
-    obs.observe(section);
-  }
-
-  function loadStats(done) {
+  function loadLiveMetrics() {
     var req = (window.Easy2WorkApi && typeof Easy2WorkApi.stats === 'function')
       ? Easy2WorkApi.stats()
       : $.getJSON(contextPath() + '/api/stats');
-    req
-      .done(function (data) {
-        if (data && typeof data.homesServiced === 'number') {
-          $('#stat-homes').attr('data-count', data.homesServiced);
-          $('#stat-hours').attr('data-count', data.hoursSaved);
-          $('#stat-pros').attr('data-count', data.verifiedProfessionals);
-        }
-      })
-      .always(function () {
-        if (typeof done === 'function') done();
-      });
+
+    req.done(function (data) {
+      if (!data) return;
+      if (typeof data.totalUsers === 'number') {
+        $('#liveTotalUsers').text(data.totalUsers);
+      }
+      if (typeof data.completedWorks === 'number') {
+        $('#liveCompletedWorks').text(data.completedWorks);
+      }
+    });
   }
 
   $(function () {
     initMarquee();
     initMap();
-    loadStats(initStatObserver);
+    loadLiveMetrics();
   });
 })(jQuery);

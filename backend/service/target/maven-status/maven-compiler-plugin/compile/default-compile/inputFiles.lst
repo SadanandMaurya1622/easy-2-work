@@ -8,6 +8,7 @@
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/api/ServiceDetailApiServlet.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/api/ServicesApiServlet.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/api/StatsApiServlet.java
+/Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/booking/ManagedBookingStore.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/catalog/ManagedServiceCatalog.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/config/DatabaseConfig.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/repository/BookingRepository.java
@@ -15,3 +16,4 @@
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/repository/StatsRepository.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/repository/UserRepository.java
 /Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/review/ManagedReviewCatalog.java
+/Users/tryeno_team/Documents/GitHub/easy-2-work/backend/service/src/main/java/com/easy2work/backend/user/ManagedUserStore.java

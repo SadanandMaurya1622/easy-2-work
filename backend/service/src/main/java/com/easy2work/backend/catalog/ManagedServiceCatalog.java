@@ -77,7 +77,6 @@ public final class ManagedServiceCatalog {
                     safeList(notIncluded),
                     safeList(visitSteps)
             );
-            all.removeIf(s -> s.code().equals(row.code()));
             all.add(row);
             all.sort(Comparator.comparing(ManagedService::title, String.CASE_INSENSITIVE_ORDER));
             writeAllInternal(all);
@@ -160,7 +159,21 @@ public final class ManagedServiceCatalog {
         if (base.isBlank()) {
             base = "SERVICE_" + (all.size() + 1);
         }
-        return base;
+        final String normalizedBase = base;
+        if (all.stream().noneMatch(s -> s.code().equals(normalizedBase))) {
+            return normalizedBase;
+        }
+        int suffix = 2;
+        String candidate = normalizedBase + "_" + suffix;
+        while (true) {
+            final String currentCandidate = candidate;
+            if (all.stream().noneMatch(s -> s.code().equals(currentCandidate))) {
+                break;
+            }
+            suffix++;
+            candidate = normalizedBase + "_" + suffix;
+        }
+        return candidate;
     }
 
     private static String safe(String v) {
