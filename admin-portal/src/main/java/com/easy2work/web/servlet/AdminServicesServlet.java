@@ -18,7 +18,11 @@ public class AdminServicesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("services", ManagedServiceCatalog.list());
-        req.getRequestDispatcher("/WEB-INF/jsp/admin-services.jsp").forward(req, resp);
+        String servletPath = req.getServletPath();
+        String view = "/services-list".equals(servletPath)
+                ? "/WEB-INF/jsp/admin-services-list.jsp"
+                : "/WEB-INF/jsp/admin-services.jsp";
+        req.getRequestDispatcher(view).forward(req, resp);
     }
 
     @Override
@@ -53,7 +57,8 @@ public class AdminServicesServlet extends HttpServlet {
             String id = n(req.getParameter("id"));
             ManagedServiceCatalog.deleteById(id);
         }
-        resp.sendRedirect(req.getContextPath() + "/services");
+        String redirectPath = "delete".equals(action) ? "/services-list" : "/services";
+        resp.sendRedirect(req.getContextPath() + redirectPath);
     }
 
     private static String readImageDataUrl(Part imagePart) throws IOException {

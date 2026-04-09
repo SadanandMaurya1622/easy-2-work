@@ -48,7 +48,8 @@
         <nav class="nav flex-column">
           <a class="nav-link" href="<%= c %>/dashboard">Dashboard</a>
           <a class="nav-link active" href="<%= c %>/users">User Management</a>
-          <a class="nav-link" href="<%= c %>/services">Service Add / Manage</a>
+          <a class="nav-link" href="<%= c %>/services">Service Add</a>
+          <a class="nav-link" href="<%= c %>/services-list">Service List</a>
           <a class="nav-link" href="<%= c %>/reviews">Reviews</a>
           <a class="nav-link" href="<%= c %>/settings">Settings</a>
           <a class="nav-link" href="<%= c %>/logout">Logout</a>

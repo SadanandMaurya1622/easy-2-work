@@ -225,7 +225,8 @@
         <nav class="nav flex-column">
           <a class="nav-link" href="<%= c %>/dashboard">Dashboard</a>
           <a class="nav-link" href="<%= c %>/users">User Management</a>
-          <a class="nav-link active" href="<%= c %>/services">Service Add / Manage</a>
+          <a class="nav-link active" href="<%= c %>/services">Service Add</a>
+          <a class="nav-link" href="<%= c %>/services-list">Service List</a>
           <a class="nav-link" href="<%= c %>/reviews">Reviews</a>
           <a class="nav-link" href="<%= c %>/settings">Settings</a>
           <a class="nav-link" href="<%= c %>/logout">Logout</a>
@@ -234,7 +235,7 @@
     </div>
     <div class="col-12 col-lg-9 col-xl-10">
       <div class="row g-4">
-        <div class="col-lg-7 col-xl-8">
+        <div class="col-12">
           <div class="card admin-card">
             <div class="card-header fw-semibold">Add New Service</div>
             <div class="card-body">
@@ -306,53 +307,6 @@
             Added services are saved and visible on user portal/API.
           </div>
         </div>
-
-        <div class="col-lg-5 col-xl-4">
-          <div class="card admin-card">
-            <div class="card-header fw-semibold">Service List</div>
-            <div class="table-responsive">
-              <table class="table table-sm table-hover align-middle mb-0 admin-table">
-                <thead class="table-light">
-                <tr>
-                  <th>Code</th>
-                  <th>Title</th>
-                  <th>Base Price</th>
-                  <th>Image</th>
-                  <th>Description</th>
-                  <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="s" items="${services}">
-              <tr>
-                <td class="fw-semibold"><c:out value="${s.code}"/></td>
-                <td><c:out value="${s.title}"/></td>
-                <td><c:out value="${s.priceLabel}"/></td>
-                <td>
-                  <c:if test="${not empty s.imageDataUrl}">
-                    <img class="service-img" src="${s.imageDataUrl}" alt="service">
-                  </c:if>
-                </td>
-                <td class="small"><c:out value="${s.summary}"/></td>
-                <td class="text-end">
-                  <form class="delete-service-form" method="post" action="<%= c %>/services">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="${s.id}" class="service-id">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                  </form>
-                </td>
-              </tr>
-                </c:forEach>
-                <c:if test="${empty services}">
-                  <tr>
-                    <td colspan="6" class="empty-state">No services added yet. Add your first service using the form.</td>
-                  </tr>
-                </c:if>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -393,30 +347,6 @@
       });
     }
 
-    document.querySelectorAll('.delete-service-form').forEach(function (delForm) {
-      delForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var idField = delForm.querySelector('.service-id');
-        var serviceId = idField ? idField.value : '';
-        if (!serviceId) {
-          return;
-        }
-        fetch('<%= c %>/api/admin/services?id=' + encodeURIComponent(serviceId), {
-          method: 'DELETE',
-          credentials: 'same-origin'
-        })
-          .then(function (r) { return r.json(); })
-          .then(function (body) {
-            if (!body || !body.ok) {
-              throw new Error((body && body.error) ? body.error : 'Unable to delete service');
-            }
-            window.location.reload();
-          })
-          .catch(function (err) {
-            alert(err.message || 'Unable to delete service');
-          });
-      });
-    });
   })();
 </script>
 </body>
