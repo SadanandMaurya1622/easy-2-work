@@ -1,6 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <% final String c = request.getContextPath();
+  com.easy2work.core.model.User sessionUser = (com.easy2work.core.model.User) session.getAttribute("user");
+  String defaultName = sessionUser != null && sessionUser.getFullName() != null ? sessionUser.getFullName() : "";
+  String defaultPhone = sessionUser != null && sessionUser.getPhone() != null ? sessionUser.getPhone() : "";
+  String defaultEmail = sessionUser != null && sessionUser.getEmail() != null ? sessionUser.getEmail() : "";
+  request.setAttribute("defaultName", defaultName);
+  request.setAttribute("defaultPhone", defaultPhone);
+  request.setAttribute("defaultEmail", defaultEmail);
   String bookingError = (String) session.getAttribute("bookingError");
   if (bookingError != null) {
     request.setAttribute("bookingError", bookingError);
@@ -66,18 +73,18 @@
             <div class="col-12">
               <label class="form-label" for="customerName">Full name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="customerName" name="customerName" required maxlength="120"
-                     value="<c:out value='${bookingForm.customerName}'/>" autocomplete="name">
+                     value="<c:out value='${not empty bookingForm.customerName ? bookingForm.customerName : defaultName}'/>" autocomplete="name">
             </div>
             <div class="col-12 col-md-6">
               <label class="form-label" for="phone">Phone <span class="text-danger">*</span></label>
               <input type="tel" class="form-control" id="phone" name="phone" required maxlength="20"
                      placeholder="e.g. 9876543210"
-                     value="<c:out value='${bookingForm.phone}'/>" autocomplete="tel">
+                     value="<c:out value='${not empty bookingForm.phone ? bookingForm.phone : defaultPhone}'/>" autocomplete="tel" readonly>
             </div>
             <div class="col-12 col-md-6">
               <label class="form-label" for="email">Email <span class="text-muted small">(optional)</span></label>
               <input type="email" class="form-control" id="email" name="email" maxlength="255"
-                     value="<c:out value='${bookingForm.email}'/>" autocomplete="email">
+                     value="<c:out value='${not empty bookingForm.email ? bookingForm.email : defaultEmail}'/>" autocomplete="email" readonly>
             </div>
           </div>
         </div>

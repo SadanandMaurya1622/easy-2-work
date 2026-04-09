@@ -54,6 +54,21 @@ public class BookingServlet extends HttpServlet {
         String addr = form.get("address").trim();
         var preferred = Booking.parsePreferred(form.get("preferredAt"));
 
+        Object sessionUser = session.getAttribute("user");
+        if (sessionUser instanceof com.easy2work.core.model.User user) {
+            String profilePhone = BookingRules.normalizePhone(user.getPhone());
+            if (!profilePhone.isBlank()) {
+                phone = profilePhone;
+            }
+            if (user.getEmail() != null && !user.getEmail().isBlank()) {
+                email = user.getEmail().trim().toLowerCase(Locale.ROOT);
+            }
+            String fullName = user.getFullName();
+            if (fullName != null && !fullName.trim().isBlank()) {
+                name = fullName.trim();
+            }
+        }
+
         try {
             DataSource ds = (DataSource) request.getServletContext().getAttribute(DatabaseConfig.CTX_DATASOURCE);
             Booking saved;

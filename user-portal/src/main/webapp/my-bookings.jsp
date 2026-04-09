@@ -17,15 +17,15 @@
 
   <main class="my-bookings-page container py-5">
     <h1 class="mb-2">My bookings</h1>
-    <p class="text-muted mb-4">Enter the same mobile number you used on the booking form — <strong>all bookings</strong> appear in the table below (date, service, address, mobile).</p>
+    <p class="text-muted mb-4">Your bookings are linked to your account phone number. Only your own bookings are shown here.</p>
 
     <div class="card border-0 shadow-sm mb-5" style="max-width: 480px; border-radius: 16px;">
       <div class="card-body p-4">
         <form id="bookingLookupForm" method="post" action="<%= c %>/my-bookings" class="mb-0">
-          <label class="form-label fw-semibold" for="phone">Mobile number</label>
+          <label class="form-label fw-semibold" for="phone">Account mobile number</label>
           <input type="tel" class="form-control form-control-lg mb-3" id="phone" name="phone" required maxlength="20"
                  placeholder="e.g. 9876543210"
-                 value="<c:out value='${phoneInput}'/>" autocomplete="tel">
+                 value="<c:out value='${phoneInput}'/>" autocomplete="tel" readonly>
           <button type="submit" class="btn btn-success w-100 btn-lg">Show my bookings</button>
         </form>
         <c:if test="${not empty lookupError}">
@@ -38,7 +38,7 @@
     <c:if test="${not empty phoneKey and empty lookupError}">
       <c:choose>
         <c:when test="${empty bookingsAll}">
-          <div class="alert alert-light border">No bookings found for this number. <a href="<%= c %>/book.jsp">Book a service</a> first or check the number you entered.</div>
+          <div class="alert alert-light border">No bookings found for your account number. <a href="<%= c %>/book.jsp">Book a service</a> first.</div>
         </c:when>
         <c:otherwise>
 

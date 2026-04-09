@@ -1,9 +1,11 @@
 package com.easy2work.web.servlet;
 
 import com.easy2work.backend.config.DatabaseConfig;
+import com.easy2work.backend.booking.ManagedBookingStore;
 import com.easy2work.backend.repository.BookingRepository;
 import com.easy2work.core.booking.MemoryBookingStore;
 import com.easy2work.core.model.Booking;
+import com.easy2work.core.model.User;
 import com.easy2work.core.util.PhoneKey;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -41,22 +43,13 @@ public class MyBookingsServlet extends HttpServlet {
     }
 
     private void handle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String phoneRaw = req.getParameter("phone");
-        if (phoneRaw == null) {
-            phoneRaw = "";
-        }
+        User user = (User) req.getSession().getAttribute("user");
+        String userPhone = user != null ? safe(user.getPhone()) : "";
+        String key = PhoneKey.fromInput(userPhone);
 
-        boolean lookup = !phoneRaw.isBlank() || "POST".equalsIgnoreCase(req.getMethod());
-
-        if (!lookup && "GET".equalsIgnoreCase(req.getMethod())) {
-            req.getRequestDispatcher("/my-bookings.jsp").forward(req, resp);
-            return;
-        }
-
-        String key = PhoneKey.fromInput(phoneRaw);
         if (key.length() != 10) {
-            req.setAttribute("lookupError", "Enter a valid 10-digit mobile number (with or without +91).");
-            req.setAttribute("phoneInput", phoneRaw);
+            req.setAttribute("lookupError", "Your account does not have a valid phone number. Please contact support.");
+            req.setAttribute("phoneInput", userPhone);
             req.getRequestDispatcher("/my-bookings.jsp").forward(req, resp);
             return;
         }
@@ -77,7 +70,7 @@ public class MyBookingsServlet extends HttpServlet {
             List<Booking> bookingsAll = new ArrayList<>(all);
             bookingsAll.sort(Comparator.comparing(Booking::getCreatedAt).reversed());
 
-            req.setAttribute("phoneInput", phoneRaw);
+            req.setAttribute("phoneInput", userPhone);
             req.setAttribute("phoneKey", key);
             req.setAttribute("bookingsAll", bookingsAll);
             req.setAttribute("bookingCount", bookingsAll.size());
@@ -86,7 +79,7 @@ public class MyBookingsServlet extends HttpServlet {
             req.setAttribute("bookingsCancelled", cancelled);
         } catch (Exception e) {
             req.setAttribute("lookupError", "We couldn’t load your list. Please try again in a moment.");
-            req.setAttribute("phoneInput", phoneRaw);
+            req.setAttribute("phoneInput", userPhone);
         }
         req.getRequestDispatcher("/my-bookings.jsp").forward(req, resp);
     }
@@ -97,9 +90,13 @@ public class MyBookingsServlet extends HttpServlet {
             return new BookingRepository(ds).findByPhoneKey(key10);
         }
         MemoryBookingStore mem = (MemoryBookingStore) req.getServletContext().getAttribute(MemoryBookingStore.SERVLET_CONTEXT_KEY);
-        if (mem == null) {
-            return List.of();
+        if (mem != null) {
+            return mem.findByPhoneKey(key10);
         }
-        return mem.findByPhoneKey(key10);
+        return ManagedBookingStore.findByPhoneKey(key10);
+    }
+
+    private static String safe(String value) {
+        return value == null ? "" : value.trim();
     }
 }
