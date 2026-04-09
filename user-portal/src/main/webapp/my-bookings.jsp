@@ -38,7 +38,6 @@
     <c:if test="${not empty phoneKey and empty lookupError}">
       <c:choose>
         <c:when test="${empty bookingsAll}">
-          <div class="alert alert-light border">No bookings found for your account number. <a href="<%= c %>/book.jsp">Book a service</a> first.</div>
         </c:when>
         <c:otherwise>
 
