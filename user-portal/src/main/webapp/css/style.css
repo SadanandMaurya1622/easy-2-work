@@ -131,6 +131,7 @@ body {
   box-shadow: none;
   min-height: 64px;
   padding: 0.75rem 1rem;
+  position: sticky;
 }
 .navbar-pronto-outer {
   width: 100%;
@@ -165,6 +166,35 @@ body {
   display: flex;
   justify-content: center;
 }
+.nav-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 0.75rem;
+  border-radius: 9999px;
+  color: #1f4ea3;
+  text-decoration: none;
+  background: linear-gradient(180deg, #eef5ff 0%, #e8f1ff 100%);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+.nav-logout-btn-edge {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.nav-logout-btn:hover {
+  color: #173f88;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+}
+.nav-logout-btn-edge:hover {
+  transform: translateY(calc(-50% - 1px));
+}
 @media (min-width: 992px) {
   .navbar-pronto .navbar-collapse {
     display: flex !important;
@@ -181,7 +211,7 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.35rem 0.45rem;
-  background: #fff;
+  background: linear-gradient(180deg, #eef5ff 0%, #e8f1ff 100%);
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   width: auto;
@@ -198,17 +228,20 @@ body {
   text-decoration: none;
   padding: 0.35rem 0.6rem;
   border-radius: 9999px;
-  transition: color 0.2s ease, font-weight 0.2s ease;
+  border: 1px solid transparent;
+  transition: color 0.2s ease, font-weight 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
   white-space: nowrap;
 }
 .navbar-pronto-pill .nav-link:hover {
-  color: #198754 !important;
-  background-color: rgba(25, 135, 84, 0.1);
+  color: #1f4ea3 !important;
+  background-color: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 .navbar-pronto-pill .nav-link.active {
-  color: #198754 !important;
+  color: #1f4ea3 !important;
   font-weight: 700 !important;
-  background-color: rgba(25, 135, 84, 0.15);
+  background-color: rgba(59, 130, 246, 0.16);
+  border-color: rgba(59, 130, 246, 0.35);
 }
 .navbar-pronto-brand {
   font-weight: 700 !important;
@@ -249,6 +282,14 @@ body {
     border-radius: 16px;
     padding: 0.75rem 1rem;
     margin-top: 0.5rem;
+  }
+  .nav-logout-btn {
+    width: 36px;
+    height: 36px;
+    margin-left: 0;
+  }
+  .nav-logout-btn-edge {
+    right: 10px;
   }
 }
 
@@ -1115,16 +1156,52 @@ a.service-card-link:focus-visible {
   padding: 4rem 0;
 }
 .testimonials-section .section-subtitle { margin-bottom: 2rem; }
+.testimonials-scroll-fullwidth {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+}
+.testimonials-marquee {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  padding: 0.5rem 0 1.2rem;
+  animation: testimonials-marquee 56s linear infinite;
+}
+.testimonials-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes testimonials-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.testimonials-scroll {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.25rem;
+  padding-left: max(1rem, calc(50vw - 570px + 1rem));
+  padding-right: max(1rem, calc(50vw - 570px + 1rem));
+}
 .testimonial-card {
+  flex: 0 0 auto;
+  width: 340px;
   background: #fff;
   border-radius: 16px;
   padding: 1.5rem;
-  height: 100%;
+  min-height: 190px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   border: 1px solid rgba(0,0,0,0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
+.testimonial-loading-card {
+  display: grid;
+  place-items: center;
+}
 .testimonial-text {
   font-style: italic;
   color: #495057;
@@ -1477,9 +1554,9 @@ a.service-card-link:focus-visible {
 .stagger-children > *:nth-child(6) { animation-delay: 0.3s; opacity: 0; }
 
 .navbar-pronto-pill .nav-link-book,
-.navbar-pronto-pill .nav-link-my-booking { font-weight: 700; color: #198754 !important; }
+.navbar-pronto-pill .nav-link-my-booking { font-weight: inherit; color: inherit !important; }
 .navbar-pronto-pill .nav-link-book:hover,
-.navbar-pronto-pill .nav-link-my-booking:hover { color: #146c43 !important; }
+.navbar-pronto-pill .nav-link-my-booking:hover { color: #1f4ea3 !important; }
 
 .hero .book-cta-btn {
   display: inline-flex;
@@ -1642,8 +1719,8 @@ body {
 }
 
 .navbar-pronto-pill {
-  border: 1px solid rgba(13, 110, 253, 0.08);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.24);
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.14), 0 6px 20px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(8px);
 }
 

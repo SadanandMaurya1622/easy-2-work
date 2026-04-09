@@ -11,7 +11,7 @@
   <link rel="icon" href="<%= c %>/images/logo.png" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" crossorigin="">
-  <link href="<%= c %>/css/style.css?v=20260408-2" rel="stylesheet">
+  <link href="<%= c %>/css/style.css?v=20260409-home-reviews-1" rel="stylesheet">
 </head>
 <body data-ctx="<%= c %>">
 <%@ include file="/WEB-INF/jsp/includes/header.jsp" %>
@@ -223,14 +223,21 @@
     <div class="container">
       <h2 class="section-title text-center">User reviews and feedback</h2>
       <p class="section-subtitle text-center">See how Easy 2 Work has transformed users' experiences through their own words.</p>
-      <div class="row g-4" id="testimonialsContainer">
-        <!-- Reviews will be loaded dynamically from API -->
-        <div class="col-12 text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading reviews...</span>
+    </div>
+    <div class="testimonials-scroll-fullwidth">
+      <div class="testimonials-marquee" id="testimonialsMarquee">
+        <div class="testimonials-scroll" id="testimonialsContainer">
+          <div class="testimonial-card testimonial-loading-card">
+            <div class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading reviews...</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="container">
       <div class="text-center mt-4">
         <a href="<%= c %>/reviews.jsp" class="btn btn-outline-primary">View All Reviews</a>
       </div>
@@ -315,12 +322,12 @@
         } else {
           // Show message if no reviews
           document.getElementById('testimonialsContainer').innerHTML =
-            '<div class="col-12 text-center"><p class="text-muted">No reviews yet. Be the first to share your experience!</p></div>';
+            '<div class="testimonial-card"><p class="text-muted mb-0">No reviews yet. Be the first to share your experience!</p></div>';
         }
       } catch (error) {
         console.error('Error loading testimonials:', error);
         document.getElementById('testimonialsContainer').innerHTML =
-          '<div class="col-12 text-center"><p class="text-muted">Unable to load reviews at this time.</p></div>';
+          '<div class="testimonial-card"><p class="text-muted mb-0">Unable to load reviews at this time.</p></div>';
       }
     }
 
@@ -335,19 +342,17 @@
         const customerName = escapeHtml(review.customerName);
         const serviceType = escapeHtml(review.serviceType);
 
-        html += '<div class="col-md-4">' +
-          '<div class="testimonial-card animate-fade-in-up animate-delay-' + delay + '">' +
+        html += '<div class="testimonial-card animate-fade-in-up animate-delay-' + delay + '">' +
           '<div class="mb-2" style="color: #FFB700; font-size: 1.2rem;">' + stars + '</div>' +
           '<p class="testimonial-text">"' + comment + '"</p>' +
           '<div class="testimonial-author">' +
           '<strong>' + customerName + '</strong>' +
           '<span class="text-muted">' + serviceType + '</span>' +
           '</div>' +
-          '</div>' +
           '</div>';
       });
 
-      container.innerHTML = html;
+      container.innerHTML = html + html;
     }
 
     function escapeHtml(text) {

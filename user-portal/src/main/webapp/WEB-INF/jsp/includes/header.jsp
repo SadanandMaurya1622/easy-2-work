@@ -1,3 +1,4 @@
+  <% boolean isUserLoggedIn = (session != null && session.getAttribute("user") != null); %>
   <nav class="navbar navbar-expand-lg navbar-pronto sticky-top">
     <div class="navbar-pronto-outer">
       <a class="navbar-pronto-mobile-brand d-lg-none" href="<%= c %>/">Easy 2 Work</a>
@@ -6,15 +7,21 @@
       </button>
       <div class="collapse navbar-collapse navbar-pronto-pill-wrap" id="navMenu">
         <div class="navbar-pronto-pill">
-          <a class="nav-link" href="<%= c %>/#why-us" data-section="why-us">Why us</a>
+          <a class="nav-link" href="<%= c %>/#why-us" data-section="why-us">Home</a>
           <a class="nav-link" href="<%= c %>/services.jsp" data-page="services">Services</a>
-          <a class="navbar-brand navbar-pronto-brand" href="<%= c %>/">Easy 2 Work</a>
           <a class="nav-link" href="<%= c %>/reviews.jsp" data-page="reviews">Reviews</a>
           <a class="nav-link nav-link-my-booking" href="<%= c %>/my-bookings" data-page="my-bookings">My Booking</a>
           <a class="nav-link" href="<%= c %>/#how" data-section="how">How it works</a>
         </div>
       </div>
     </div>
+    <% if (isUserLoggedIn) { %>
+    <a class="nav-logout-btn nav-logout-btn-edge" href="<%= c %>/logout" title="Logout" aria-label="Logout">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+        <path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5a1 1 0 1 0 0-2H5V5h5a1 1 0 1 0 0-2Zm9.71 8.29-3-3a1 1 0 1 0-1.42 1.42L16.59 11H9a1 1 0 1 0 0 2h7.59l-1.3 1.29a1 1 0 1 0 1.42 1.42l3-3a1 1 0 0 0 0-1.42Z"/>
+      </svg>
+    </a>
+    <% } %>
   </nav>
   <script>
     // Highlight active navigation link

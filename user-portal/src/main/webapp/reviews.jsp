@@ -11,13 +11,40 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
   <style>
+    .reviews-scroll-fullwidth {
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 0.35rem;
+    }
+    .reviews-marquee {
+      display: flex;
+      flex-wrap: nowrap;
+      width: max-content;
+      animation: reviews-marquee 34s linear infinite;
+    }
+    .reviews-marquee:hover {
+      animation-play-state: paused;
+    }
+    @keyframes reviews-marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    #reviewsList {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      flex-shrink: 0;
+      padding-bottom: 0.35rem;
+    }
     .review-card {
       border: 1px solid #e0e0e0;
       border-radius: 8px;
       padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
       background: white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      height: 100%;
+      flex: 0 0 clamp(320px, 34vw, 420px);
     }
     .stars {
       color: #FFB700;
@@ -72,6 +99,12 @@
       font-size: 3rem;
       margin: 0;
     }
+    @media (max-width: 767.98px) {
+      #reviewsList {
+        gap: 0.8rem;
+      }
+      .review-card { flex-basis: 86vw; }
+    }
   </style>
 </head>
 <body data-ctx="<%= c %>">
@@ -79,7 +112,7 @@
 
   <div class="container my-5">
     <div class="row">
-      <div class="col-lg-8 mx-auto">
+      <div class="col-12 col-xl-11 mx-auto">
         <h1 class="text-center mb-4">Customer Reviews</h1>
 
         <div id="averageRating" class="average-rating">
@@ -141,10 +174,16 @@
         </div>
 
         <!-- Reviews List -->
-        <div id="reviewsList">
-          <div class="text-center">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+        <div class="reviews-scroll-fullwidth">
+          <div class="reviews-marquee" id="reviewsMarquee">
+            <div id="reviewsList">
+              <div class="review-card d-grid place-items-center">
+                <div class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -235,22 +274,59 @@
         const data = await response.json();
 
         if (data.ok) {
-          displayReviews(data.reviews);
-          displayAverage(data.averageRating, data.count);
+          const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+          displayReviews(reviews);
+
+          const hasApiAverage = typeof data.averageRating === 'number' && Number.isFinite(data.averageRating) && data.averageRating > 0;
+          if (hasApiAverage) {
+            displayAverage(data.averageRating, typeof data.count === 'number' ? data.count : reviews.length);
+          } else {
+            const fallback = deriveAverageFromReviews(reviews);
+            displayAverage(fallback.average, fallback.count);
+          }
         }
       } catch (error) {
+        const fallback = deriveAverageFromReviews([]);
+        displayAverage(fallback.average, fallback.count);
         document.getElementById('reviewsList').innerHTML =
           '<div class="alert alert-danger">Failed to load reviews</div>';
       }
     }
 
-    function displayAverage(avg, count) {
-      document.getElementById('avgRatingValue').textContent = avg.toFixed(1);
-      const reviewWord = count === 1 ? 'review' : 'reviews';
-      document.getElementById('totalReviews').textContent =
-        'Based on ' + count + ' ' + reviewWord;
+    function deriveAverageFromReviews(reviews) {
+      if (!Array.isArray(reviews) || reviews.length === 0) {
+        return { average: 0, count: 0 };
+      }
+      let total = 0;
+      let validCount = 0;
+      reviews.forEach(review => {
+        let rating = 0;
+        if (typeof review.rating === 'number' && Number.isFinite(review.rating)) {
+          rating = review.rating;
+        } else if (typeof review.stars === 'string') {
+          const starsOnly = (review.stars.match(/★/g) || []).length;
+          rating = starsOnly;
+        }
+        if (rating > 0) {
+          total += rating;
+          validCount += 1;
+        }
+      });
+      if (validCount === 0) {
+        return { average: 0, count: reviews.length };
+      }
+      return { average: total / validCount, count: reviews.length };
+    }
 
-      const stars = Math.round(avg);
+    function displayAverage(avg, count) {
+      const safeAvg = (typeof avg === 'number' && Number.isFinite(avg) && avg >= 0) ? avg : 0;
+      const safeCount = (typeof count === 'number' && Number.isFinite(count) && count >= 0) ? count : 0;
+      document.getElementById('avgRatingValue').textContent = safeAvg.toFixed(1);
+      const reviewWord = safeCount === 1 ? 'review' : 'reviews';
+      document.getElementById('totalReviews').textContent =
+        'Based on ' + safeCount + ' ' + reviewWord;
+
+      const stars = Math.round(safeAvg);
       let starsHtml = '';
       for (let i = 0; i < 5; i++) {
         starsHtml += i < stars ? '★' : '☆';
@@ -260,9 +336,13 @@
 
     function displayReviews(reviews) {
       const container = document.getElementById('reviewsList');
+      const marquee = document.getElementById('reviewsMarquee');
 
       if (reviews.length === 0) {
         container.innerHTML = '<div class="alert alert-info">No reviews yet. Be the first to share your experience!</div>';
+        if (marquee) {
+          marquee.style.animation = 'none';
+        }
         return;
       }
 
@@ -278,7 +358,10 @@
           '</div>';
       });
 
-      container.innerHTML = html;
+      container.innerHTML = html + html;
+      if (marquee) {
+        marquee.style.animation = '';
+      }
     }
 
     // Load reviews on page load
