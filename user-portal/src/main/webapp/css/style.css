@@ -1511,64 +1511,117 @@ a.service-card-link:focus-visible {
   .my-bookings-address { max-width: 360px; }
 }
 
-.book-page { padding: 5.5rem 0 4rem; max-width: 1180px; margin: 0 auto; }
-.book-page h1 { font-size: 1.85rem; font-weight: 700; margin-bottom: 0.5rem; }
-.book-page .lead { color: #555; font-size: 1rem; margin-bottom: 1.75rem; }
-.book-page .card { border: none; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+.book-page {
+  padding: 5.5rem 0 4.25rem;
+  width: min(96vw, 1500px);
+  max-width: none;
+  margin: 0 auto;
+}
+.book-page.container {
+  width: min(96vw, 1500px);
+  max-width: none;
+  --bs-gutter-x: 1rem;
+}
+.book-page h1 {
+  font-size: clamp(1.95rem, 2.8vw, 2.35rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.book-page .lead {
+  color: #586174;
+  font-size: 1.02rem;
+  margin-bottom: 2rem;
+}
+.book-page .card {
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 24px;
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+}
 
 .book-header {
   text-align: center;
-  margin-bottom: 1.4rem;
-}
-.book-header h1 {
-  letter-spacing: -0.02em;
+  margin-bottom: 1.8rem;
 }
 .book-card-premium {
-  background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  background:
+    radial-gradient(900px 300px at 10% -20%, rgba(13, 110, 253, 0.1), transparent 60%),
+    radial-gradient(800px 260px at 95% -30%, rgba(25, 135, 84, 0.1), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(6px);
 }
 .book-form-section {
-  border: 1px solid #e5eaf2;
-  border-radius: 14px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background: #f9fbff;
+  border: 1px solid #dfe6f1;
+  border-radius: 18px;
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1.1rem;
+  background: linear-gradient(180deg, #f8fbff 0%, #f6f9ff 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 .book-form-section-title {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #475569;
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.07em;
+  color: #4a5568;
+  margin-bottom: 0.85rem;
 }
 .book-page .form-control,
 .book-page .form-select {
-  border-radius: 10px;
-  border-color: #d8e0eb;
-  min-height: 42px;
+  border-radius: 12px;
+  border-color: #cfdaea;
+  min-height: 48px;
+  font-size: 1.02rem;
+  background: #ffffff;
 }
 .book-page .form-control:focus,
 .book-page .form-select:focus {
-  border-color: #87a6ff;
-  box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.16);
+  border-color: #7f9fff;
+  box-shadow: 0 0 0 0.22rem rgba(13, 110, 253, 0.16);
 }
 .book-submit-wrap {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 .book-submit-wrap .btn {
-  border-radius: 12px;
-  padding-top: 0.72rem;
-  padding-bottom: 0.72rem;
+  border-radius: 14px;
+  padding-top: 0.82rem;
+  padding-bottom: 0.82rem;
   font-weight: 700;
-  box-shadow: 0 10px 22px rgba(25, 135, 84, 0.26);
+  box-shadow: 0 14px 30px rgba(25, 135, 84, 0.28);
 }
 .book-submit-note {
   text-align: center;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   color: #64748b;
-  margin-top: 0.55rem;
+  margin-top: 0.65rem;
   margin-bottom: 0;
+}
+@media (max-width: 1199.98px) {
+  .book-page,
+  .book-page.container {
+    width: min(97vw, 1220px);
+  }
+}
+@media (max-width: 991.98px) {
+  .book-page,
+  .book-page.container {
+    width: min(98vw, 900px);
+    padding-top: 5rem;
+  }
+}
+@media (max-width: 767.98px) {
+  .book-page {
+    padding-top: 4.5rem;
+    padding-bottom: 3.5rem;
+  }
+  .book-page .card {
+    border-radius: 18px;
+  }
+  .book-form-section {
+    border-radius: 14px;
+    padding: 0.95rem;
+  }
 }
 
 /* ===== Premium polish (homepage) ===== */
